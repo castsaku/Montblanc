@@ -35,46 +35,61 @@ namespace Montblanc
         Console.ReadKey();
         Console.Clear();
 
-        do
-        {
-            do
-            {
-                statBudget = 0;
+        do {
+            statBudget = 0;
+            do {
+                do {
+                    Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza?");
+                    str = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                    if (statBudget + str > 18)
+                    {
+                        Console.WriteLine("Disculpa, pero te excediste en Fuerza. Vuelve a intentarlo");
+                    }
+                } while (statBudget + str > 18);
+                statBudget += str;
+                if (statBudget == 18) break;
 
-                Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza?");
-                str = int.Parse(Console.ReadLine());
-                Console.WriteLine();
-                Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa?");
-                def = int.Parse(Console.ReadLine());
-                Console.WriteLine();
-                Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza?");
-                dex = int.Parse(Console.ReadLine());
-                Console.WriteLine();
+                do {
+                    Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa?");
+                    def = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                    if (statBudget + def > 18) {
+                        Console.WriteLine("Disculpa, pero te excediste en Defensa. Vuelve a intentarlo");
+                    }
+                } while (statBudget + def > 18);
+                statBudget += def;
+                if (statBudget == 18) break;
 
-                statBudget = str + def + dex;
+                do {
+                    Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza?");
+                    dex = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                    if (statBudget + dex > 18) {
+                        Console.WriteLine("Disculpa, pero te excediste en Destreza. Vuelve a intentarlo");
+                    }
+                } while (statBudget + dex > 18);
+                statBudget += dex;
+                if (statBudget == 18) break;
 
                 if (statBudget < 18)
                 {
                     Console.WriteLine("¡Te sobran " + (18 - statBudget) + " puntos! Asigna el resto donde quieras");
                     Console.ReadKey();
                     Console.Clear();
-
                 }
-
                 if (statBudget > 18)
                 {
                     Console.WriteLine("¡Te pasaste! Sólo tienes 18 puntos para repartir");
                     Console.ReadKey();
                     Console.Clear();
                 }
-            }
-            while (statBudget != 18);
+            } while (statBudget < 18);
 
-            Console.WriteLine("Tienes " + str + " puntos de fuerza, " + def + " puntos de defensa, y " + dex + " puntos de destreza. ¿Es correcto? Si/No");
+            Console.WriteLine($"Tienes {str} puntos de fuerza, {def} puntos de defensa, y {dex} puntos de destreza. ¿Es correcto? Si/No");
             playerAnswer = Console.ReadLine();
             Console.Clear();
-        }
-        while (playerAnswer == "No" || playerAnswer == "no");
+        } while (playerAnswer == "No" || playerAnswer == "no");
 
         Console.Clear();
         Console.WriteLine("¡Perfecto! Con esto ya podemos-");
@@ -145,25 +160,19 @@ namespace Montblanc
                         hpo = hpo - pdmg;
                         Console.WriteLine("El Orco recibe " + pdmg + " puntos de daño.");
                     }
-
-                    if (ohitchance < 13)
-                    {
-                        Console.WriteLine("¡El ataque del Orco falló!");
-                    }
-                    else
-                    {
+                   
+                }
+                if (ohitchance < 13)
+                {
+                    Console.WriteLine("¡El ataque del Orco falló!");
+                }
+                else
+                {
+                    if (combatAnswer == 1){
                         hpp = hpp - odmg;
                         Console.WriteLine("Recibiste " + odmg + " puntos de daño.");
                     }
-                }
-
-                if (combatAnswer == 2)
-                {
-                    if (ohitchance < 13)
-                    {
-                        Console.WriteLine("¡El ataque del Orco falló!");
-                    }
-                    else
+                    if (combatAnswer == 2)
                     {
                         blocked = odmg + def;
                         hpp = hpp + (blocked / 2);
@@ -186,7 +195,7 @@ namespace Montblanc
                 Console.WriteLine("Orco: ¡Buajajaja! Nada mal para un combate en consola. ¿Sistema de fallos y bonos de daño aleatoreos? ¡Ni siquiera te han enseñado eso!");
                 Console.ReadKey();
                 Console.Clear();
-                playerAnswer = "no";
+                break;
             }
             else
             {
