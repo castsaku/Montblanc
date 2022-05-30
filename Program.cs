@@ -142,7 +142,7 @@ namespace Montblanc
                     }
                     else
                     {
-                        orcHealth = orcHealth- playerDamage;
+                        orcHealth -= playerDamage;
                         Console.WriteLine("El Orco recibe " + playerDamage + " puntos de daño.");
                     }
 
