@@ -11,8 +11,8 @@ namespace Montblanc
     static void Main(string[] args)
     {
         string playerName, playerAnswer;
-        int str = 0, def = 0, dex = 0, statBudget = 0, hpp = 20, pdmg, odmg, phitchance, ohitchance;
-        int hpo = 25, stro = 6, defo = 6, dexo = 9;
+        int playerStrenght, playerDefense, playerDexterity, statBudget = 0, playerHealth = 20, playerDamage, orcDamage, playerHitChance, orcHitChance;
+        int orcHealth = 25, orcStrenght = 6, orcDefense = 6, orcDexterity = 9;
         int blocked, combatAnswer;
         Random rnd = new Random();
 
@@ -42,20 +42,20 @@ namespace Montblanc
                 statBudget = 0;
 
                 Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza?");
-                str = int.Parse(Console.ReadLine());
+                playerStrenght = int.Parse(Console.ReadLine());
                 Console.WriteLine();
                 Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa?");
-                def = int.Parse(Console.ReadLine());
+                playerDefense = int.Parse(Console.ReadLine());
                 Console.WriteLine();
                 Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza?");
-                dex = int.Parse(Console.ReadLine());
+                playerDexterity = int.Parse(Console.ReadLine());
                 Console.WriteLine();
 
-                statBudget = str + def + dex;
+                statBudget = playerStrenght + playerDefense + playerDexterity;
 
                 if (statBudget < 18)
                 {
-                    Console.WriteLine("¡Te sobran " + (18 - statBudget) + " puntos! Asigna el resto donde quieras");
+                    Console.WriteLine("¡Te sobran " + (18 - statBudget) + " puntos! Asigna tus puntos de nuevo");
                     Console.ReadKey();
                     Console.Clear();
 
@@ -70,7 +70,7 @@ namespace Montblanc
             }
             while (statBudget != 18);
 
-            Console.WriteLine("Tienes " + str + " puntos de fuerza, " + def + " puntos de defensa, y " + dex + " puntos de destreza. ¿Es correcto? Si/No");
+            Console.WriteLine("Tienes " + playerStrenght + " puntos de fuerza, " + playerDefense + " puntos de defensa, y " + playerDexterity + " puntos de destreza. ¿Es correcto? Si/No");
             playerAnswer = Console.ReadLine();
             Console.Clear();
         }
@@ -92,9 +92,9 @@ namespace Montblanc
         Console.WriteLine("Recibiste: Espada Corta");
         Console.WriteLine("+2 Fuerza, +1 Defensa, +2 Destreza");
 
-        str = str + 2;
-        def = def + 1;
-        dex = dex + 2;
+        playerStrenght += 2;
+        playerDefense += 1;
+        playerDefense += 2;
 
         Console.ReadKey();
         Console.Clear();
@@ -114,21 +114,21 @@ namespace Montblanc
 
         do
         {
-            hpo = 25;
-            hpp = 20;
+            orcHitChance = 25;
+            playerHitChance = 20;
             do
             {
                 Console.Clear();
-                Console.WriteLine("¡Te quedan " + hpp + " puntos de vida! ¡Al Orco le quedan " + hpo + "! ¿Que deseas hacer?");
+                Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al Orco le quedan " + orcHealth + "! ¿Que deseas hacer?");
                 Console.WriteLine();
                 Console.WriteLine("Ingresa 1 para ATACAR");
                 Console.WriteLine("Ingresa 2 para DEFENDERTE");
 
-                pdmg = str + rnd.Next(1, 10) - defo + rnd.Next(1, 5);
-                odmg = stro + rnd.Next(1, 10) - def + rnd.Next(1, 5);
+                playerDamage = playerStrenght + rnd.Next(1, 10) - orcDefense + rnd.Next(1, 5);
+                orcDamage = orcStrenght + rnd.Next(1, 10) - playerDefense + rnd.Next(1, 5);
 
-                phitchance = dex + rnd.Next(1, 13);
-                ohitchance = dexo + rnd.Next(1, 13);
+                playerHitChance = playerDexterity + rnd.Next(1, 13);
+                orcHitChance = orcDexterity + rnd.Next(1, 13);
 
                 combatAnswer = int.Parse(Console.ReadLine());
 
@@ -136,51 +136,51 @@ namespace Montblanc
 
                 if (combatAnswer == 1)
                 {
-                    if (phitchance < 13)
+                    if (playerHitChance < 13)
                     {
                         Console.WriteLine("¡Tu ataque falló!");
                     }
                     else
                     {
-                        hpo = hpo - pdmg;
-                        Console.WriteLine("El Orco recibe " + pdmg + " puntos de daño.");
+                        orcHealth = orcHealth- playerDamage;
+                        Console.WriteLine("El Orco recibe " + playerDamage + " puntos de daño.");
                     }
 
-                    if (ohitchance < 13)
+                    if (orcHitChance < 13)
                     {
                         Console.WriteLine("¡El ataque del Orco falló!");
                     }
                     else
                     {
-                        hpp = hpp - odmg;
-                        Console.WriteLine("Recibiste " + odmg + " puntos de daño.");
+                        playerHealth -= orcDamage;
+                        Console.WriteLine("Recibiste " + orcDamage + " puntos de daño.");
                     }
                 }
 
                 if (combatAnswer == 2)
                 {
-                    if (ohitchance < 13)
+                    if (orcHitChance < 13)
                     {
                         Console.WriteLine("¡El ataque del Orco falló!");
                     }
                     else
                     {
-                        blocked = odmg + def;
-                        hpp = hpp + (blocked / 2);
+                        blocked = orcDamage + playerDefense;
+                        playerHealth += (blocked / 2);
                         Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
                         Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
-                        if (hpp > 20)
+                        if (playerHealth > 20)
                         {
                             Console.WriteLine("¡Estás al máximo de vida!");
-                            hpp = 20;
+                            playerHealth = 20;
                         }
                     }
                 }
                 Console.ReadKey();
             }
-            while (hpo > 0 && hpp > 0);
+            while (orcHealth > 0 && playerHealth > 0);
 
-            if (hpo <= 0)
+            if (orcHealth <= 0)
             {
                 Console.Clear();
                 Console.WriteLine("Orco: ¡Buajajaja! Nada mal para un combate en consola. ¿Sistema de fallos y bonos de daño aleatoreos? ¡Ni siquiera te han enseñado eso!");
