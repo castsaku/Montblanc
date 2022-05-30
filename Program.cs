@@ -10,10 +10,10 @@ namespace Montblanc
 {
     static void Main(string[] args)
     {
-        string PlayerName, ans, retry;
-        int str = 0, def = 0, dex = 0, statbudget = 0, hpp = 20, pdmg, odmg, phitchance, ohitchance;
+        string playerName, playerAnswer;
+        int str = 0, def = 0, dex = 0, statBudget = 0, hpp = 20, pdmg, odmg, phitchance, ohitchance;
         int hpo = 25, stro = 6, defo = 6, dexo = 9;
-        int blocked, cans;
+        int blocked, combatAnswer;
         Random rnd = new Random();
 
         Console.WriteLine("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso. Para avanzar los dialogos, presiona una tecla.");
@@ -23,13 +23,13 @@ namespace Montblanc
         do
         {
             Console.WriteLine("Primero cuentanos de ti, ¿Cual es tu nombre?");
-            PlayerName = Console.ReadLine();
+            playerName = Console.ReadLine();
             Console.Clear();
-            Console.WriteLine("¿Te llamas " + PlayerName + "? Si/No");
-            ans = Console.ReadLine();
+            Console.WriteLine("¿Te llamas " + playerName + "? Si/No");
+            playerAnswer = Console.ReadLine();
             Console.Clear();
         }
-        while (ans == "No" || ans == "no");
+        while (playerAnswer == "No" || playerAnswer == "no");
 
         Console.WriteLine("Ahora vamos a crear tu personaje. Deberás distribuir 18 puntos entre tu Fuerza, Defensa, y Destreza");
         Console.ReadKey();
@@ -39,7 +39,7 @@ namespace Montblanc
         {
             do
             {
-                statbudget = 0;
+                statBudget = 0;
 
                 Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza?");
                 str = int.Parse(Console.ReadLine());
@@ -51,30 +51,30 @@ namespace Montblanc
                 dex = int.Parse(Console.ReadLine());
                 Console.WriteLine();
 
-                statbudget = str + def + dex;
+                statBudget = str + def + dex;
 
-                if (statbudget < 18)
+                if (statBudget < 18)
                 {
-                    Console.WriteLine("¡Te sobran " + (18 - statbudget) + " puntos! Asigna el resto donde quieras");
+                    Console.WriteLine("¡Te sobran " + (18 - statBudget) + " puntos! Asigna el resto donde quieras");
                     Console.ReadKey();
                     Console.Clear();
 
                 }
 
-                if (statbudget > 18)
+                if (statBudget > 18)
                 {
                     Console.WriteLine("¡Te pasaste! Sólo tienes 18 puntos para repartir");
                     Console.ReadKey();
                     Console.Clear();
                 }
             }
-            while (statbudget != 18);
+            while (statBudget != 18);
 
             Console.WriteLine("Tienes " + str + " puntos de fuerza, " + def + " puntos de defensa, y " + dex + " puntos de destreza. ¿Es correcto? Si/No");
-            ans = Console.ReadLine();
+            playerAnswer = Console.ReadLine();
             Console.Clear();
         }
-        while (ans == "No" || ans == "no");
+        while (playerAnswer == "No" || playerAnswer == "no");
 
         Console.Clear();
         Console.WriteLine("¡Perfecto! Con esto ya podemos-");
@@ -130,11 +130,11 @@ namespace Montblanc
                 phitchance = dex + rnd.Next(1, 13);
                 ohitchance = dexo + rnd.Next(1, 13);
 
-                cans = int.Parse(Console.ReadLine());
+                combatAnswer = int.Parse(Console.ReadLine());
 
                 Console.Clear();
 
-                if (cans == 1)
+                if (combatAnswer == 1)
                 {
                     if (phitchance < 13)
                     {
@@ -157,7 +157,7 @@ namespace Montblanc
                     }
                 }
 
-                if (cans == 2)
+                if (combatAnswer == 2)
                 {
                     if (ohitchance < 13)
                     {
@@ -186,7 +186,7 @@ namespace Montblanc
                 Console.WriteLine("Orco: ¡Buajajaja! Nada mal para un combate en consola. ¿Sistema de fallos y bonos de daño aleatoreos? ¡Ni siquiera te han enseñado eso!");
                 Console.ReadKey();
                 Console.Clear();
-                retry = "no";
+                playerAnswer = "no";
             }
             else
             {
@@ -195,11 +195,11 @@ namespace Montblanc
                 Console.ReadKey();
                 Console.Clear();
                 Console.WriteLine("** ¿QUIERES REINTENTAR EL COMBATE? NO PODRÁS CAMBIAR TUS ESTADISTICAS**");
-                retry = Console.ReadLine();
+                playerAnswer = Console.ReadLine();
                 Console.Clear();
             }
         }
-        while (retry == "si" || retry == "Si");
+        while (playerAnswer == "si" || playerAnswer == "Si");
 
         Console.Clear();
 
