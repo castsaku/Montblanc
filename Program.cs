@@ -10,10 +10,13 @@ namespace Montblanc
     {
         static void Main(string[] args)
         {
-            string playerName, playerAnswer, playerStrenght, playerDefense, playerDexterity;
+            string playerName, playerAnswer, playerStrenght, playerDefense, playerDexterity, enemy;
             int playerStrenghtInt, playerDefenseInt, playerDexterityInt;
-            int orcHealth = 25, orcStrenght = 6, orcDefense = 6, orcDexterity = 9;
+            int enemyHealth, enemyStrenght, enemyDefense, enemyDexterity;
             int statBudget = 0, playerHealth = 20, blocked, playerDamage, orcDamage, playerHitChance, orcHitChance, combatAnswer;
+
+            int decision, GHCompletion = 0, BSCompletion = 0, RPCompletion = 0, adventureCompletion = 0, GHID = 1, BSID = 2, RPID = 3;
+            string ubicacionActual = "MONTBLANC";
 
             Random rnd = new Random();
 
@@ -31,7 +34,6 @@ namespace Montblanc
 
                     if (string.IsNullOrEmpty(playerName))
                     {
-                        Console.Clear();
                         Console.WriteLine("Debe ingresar un nombre");
                         Console.ReadKey();
                         Console.Clear();
@@ -43,8 +45,7 @@ namespace Montblanc
                 playerAnswer = Console.ReadLine();
                 Console.Clear();
             }
-            while (playerAnswer == "No");
-
+            while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no" || playerAnswer == "nO");
 
             Console.WriteLine("Ahora vamos a crear tu personaje. Deberás distribuir 18 puntos entre tu Fuerza, Defensa, y Destreza");
             Console.ReadKey();
@@ -159,24 +160,30 @@ namespace Montblanc
             Console.WriteLine("PARA LUCHAR EN ESTE JUEGO DEBERAS ATACAR O DEFENDERTE DEPENDIENDO DE LA NECESIDAD DE TU PERSONAJE");
             Console.WriteLine("CADA TURNO TU PERSONAJE RECUPERARÁ LA MITAD DEL DAÑO BLOQUEADO AL DEFENDERTE");
             Console.ReadKey();
+            Console.Clear();
 
             do
             {
-                orcHitChance = 25;
-                playerHitChance = 20;
+                enemy = "Orco";
+
+                enemyHealth = 25;
+                enemyStrenght = 4;
+                enemyDexterity = 4;
+                enemyDefense = 4;
+
+                playerHealth = 20;
                 do
                 {
-                    Console.Clear();
-                    Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al Orco le quedan " + orcHealth + "! ¿Que deseas hacer?");
+                    Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al " + enemy + " le quedan " + enemyHealth + "! ¿Que deseas hacer?");
                     Console.WriteLine();
                     Console.WriteLine("Ingresa 1 para ATACAR");
                     Console.WriteLine("Ingresa 2 para DEFENDERTE");
 
-                    playerDamage = playerStrenghtInt + rnd.Next(1, 10) - orcDefense + rnd.Next(1, 5);
-                    orcDamage = orcStrenght + rnd.Next(1, 10) - playerDefenseInt + rnd.Next(1, 5);
+                    playerDamage = playerStrenghtInt + rnd.Next(1, 10) - enemyDefense + rnd.Next(1, 5);
+                    orcDamage = enemyStrenght + rnd.Next(1, 10) - playerDefenseInt + rnd.Next(1, 5);
 
                     playerHitChance = playerDexterityInt + rnd.Next(1, 13);
-                    orcHitChance = orcDexterity + rnd.Next(1, 13);
+                    orcHitChance = enemyDexterity + rnd.Next(1, 13);
 
                     combatAnswer = int.Parse(Console.ReadLine());
 
@@ -190,13 +197,13 @@ namespace Montblanc
                         }
                         else
                         {
-                            orcHealth -= playerDamage;
-                            Console.WriteLine("El Orco recibe " + playerDamage + " puntos de daño.");
+                            enemyHealth -= playerDamage;
+                            Console.WriteLine("El " + enemy + " recibe " + playerDamage + " puntos de daño.");
                         }
 
-                        if (orcHitChance < 13)
+                        if (orcHitChance < 10)
                         {
-                            Console.WriteLine("¡El ataque del Orco falló!");
+                            Console.WriteLine("¡El ataque del " + enemy + " falló!");
                         }
                         else
                         {
@@ -207,9 +214,9 @@ namespace Montblanc
 
                     if (combatAnswer == 2)
                     {
-                        if (orcHitChance < 13)
+                        if (orcHitChance < 10)
                         {
-                            Console.WriteLine("¡El ataque del Orco falló!");
+                            Console.WriteLine("¡El ataque del " + enemy + " falló!");
                         }
                         else
                         {
@@ -225,13 +232,14 @@ namespace Montblanc
                         }
                     }
                     Console.ReadKey();
+                    Console.Clear();
                 }
-                while (orcHealth > 0 && playerHealth > 0);
+                while (enemyHealth > 0 && playerHealth > 0);
 
-                if (orcHealth <= 0)
+                if (enemyHealth <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("Orco: ¡Buajajaja! Nada mal para un combate en consola. ¿Sistema de fallos y bonos de daño aleatoreos? ¡Ni siquiera te han enseñado eso!");
+                    Console.WriteLine(enemy + ": ¡Buajajaja! Nada mal para un combate en consola. ¿Sistema de fallos y bonos de daño aleatoreos? ¡Ni siquiera te han enseñado eso!");
                     Console.ReadKey();
                     Console.Clear();
                     playerAnswer = "no";
@@ -239,7 +247,7 @@ namespace Montblanc
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("Orco: Che ponéle ganas vieja. Hazte más fuerte y vuelve a retarme.");
+                    Console.WriteLine(enemy + ": Che ponéle ganas vieja. Hazte más fuerte y vuelve a retarme.");
                     Console.ReadKey();
                     Console.Clear();
                     Console.WriteLine("** ¿QUIERES REINTENTAR EL COMBATE? NO PODRÁS CAMBIAR TUS ESTADISTICAS**");
@@ -251,7 +259,200 @@ namespace Montblanc
 
             Console.Clear();
 
+            do
+            {
+                do
+                {
+                    if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 0)
+                    {
+                        BSID = 1;
+                        RPID = 2;
+                    }
+
+                    if (GHCompletion == 0 && BSCompletion == 1 && RPCompletion == 0)
+                    {
+                        RPID = 2;
+                    }
+
+                    if (GHCompletion == 1 && BSCompletion == 1 && RPCompletion == 0)
+                    {
+                        RPID = 1;
+                    }
+
+                    if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 1)
+                    {
+                        BSID = 1;
+                    }
+
+                    Console.WriteLine("** PARA COMPLETAR ESTA AVENTURA DEBES VISITAR LOS 3 LUGARES **");
+                    Console.WriteLine();
+                    Console.WriteLine("Te encuentras en " + ubicacionActual + ", ¿Donde quieres ir?");
+                    Console.WriteLine();
+
+                    if (GHCompletion == 0)
+                    {
+                        Console.WriteLine(GHID + " GREENHILLS");
+                    }
+
+                    if (BSCompletion == 0)
+                    {
+                        Console.WriteLine(BSID + " BLUESTEEPS");
+                    }
+
+                    if (RPCompletion == 0)
+                    {
+                        Console.WriteLine(RPID + " REDPLAINS");
+                    }
+
+                    Console.WriteLine();
+
+                    decision = int.Parse(Console.ReadLine());
+                    Console.Clear();
+
+                    if (decision == GHID && GHCompletion != 1)
+                    {
+                        ubicacionActual = "GREENHILLS";
+                        GHCompletion = 1;
+                        adventureCompletion += GHCompletion;
+                    }
+
+                    if (decision == BSID && BSCompletion != 1)
+                    {
+                        ubicacionActual = "BLUESTEEPS";
+                        BSCompletion = 1;
+                        adventureCompletion += BSCompletion;
+                    }
+
+                    if (decision == RPID && RPCompletion != 1)
+                    {
+                        ubicacionActual = "REDPLAINS";
+                        adventureCompletion += RPCompletion;
+
+                        Console.WriteLine("Te encuentras en " + ubicacionActual + ".");
+                        Console.ReadKey();
+                        Console.Clear();
+
+                        Console.WriteLine("¡Encontraste el arma divina! ¡Nada podrá resistir tus ataques!");
+                        Console.ReadKey();
+                        Console.Clear();
+
+                        playerStrenghtInt = playerStrenghtInt + 90;
+
+                        Console.WriteLine("TUS STATS SE FUERON A LA CHUCHA");
+                        Console.ReadKey();
+                        Console.Clear();
+
+                        do
+                        {
+                            enemy = "Dragon";
+
+                            enemyHealth = 60;
+                            enemyStrenght = 12;
+                            enemyDexterity = 12;
+                            enemyDefense = 12;
+
+                            playerHealth = 35;
+
+                            do
+                            {
+                                Console.Clear();
+                                Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al" + enemy + " le quedan " + enemyHealth + "! ¿Que deseas hacer?");
+                                Console.WriteLine();
+                                Console.WriteLine("Ingresa 1 para ATACAR");
+                                Console.WriteLine("Ingresa 2 para DEFENDERTE");
+
+                                playerDamage = playerStrenghtInt + rnd.Next(1, 10) - enemyDefense + rnd.Next(1, 5);
+                                orcDamage = enemyStrenght + rnd.Next(1, 10) - playerDefenseInt + rnd.Next(1, 5);
+
+                                playerHitChance = playerDexterityInt + rnd.Next(1, 13);
+                                orcHitChance = enemyDexterity + rnd.Next(1, 13);
+
+                                combatAnswer = int.Parse(Console.ReadLine());
+
+                                Console.Clear();
+
+                                if (combatAnswer == 1)
+                                {
+                                    if (playerHitChance < 10)
+                                    {
+                                        Console.WriteLine("¡Tu ataque falló!");
+                                    }
+                                    else
+                                    {
+                                        enemyHealth -= playerDamage;
+                                        Console.WriteLine("El " + enemy + " recibe " + playerDamage + " puntos de daño.");
+                                    }
+
+                                    if (orcHitChance < 10)
+                                    {
+                                        Console.WriteLine("¡El ataque del " + enemy + " falló!");
+                                    }
+                                    else
+                                    {
+                                        playerHealth -= orcDamage;
+                                        Console.WriteLine("Recibiste " + orcDamage + " puntos de daño.");
+                                    }
+                                }
+
+                                if (combatAnswer == 2)
+                                {
+                                    if (orcHitChance < 13)
+                                    {
+                                        Console.WriteLine("¡El ataque del Dragon falló!");
+                                    }
+                                    else
+                                    {
+                                        blocked = orcDamage + playerDefenseInt;
+                                        playerHealth += (blocked / 2);
+                                        Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
+                                        Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
+                                        if (playerHealth > 20)
+                                        {
+                                            Console.WriteLine("¡Estás al máximo de vida!");
+                                            playerHealth = 20;
+                                        }
+                                    }
+                                }
+                                Console.ReadKey();
+                            }
+                            while (enemyHealth > 0 && playerHealth > 0);
+
+                            if (enemyHealth <= 0)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Se murio el dragon we");
+                                Console.ReadKey();
+                                Console.Clear();
+                                playerAnswer = "no";
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Te moriste we");
+                                Console.ReadKey();
+                                Console.Clear();
+                                Console.WriteLine("** ¿QUIERES REINTENTAR EL COMBATE? NO PODRÁS CAMBIAR TUS ESTADISTICAS**");
+                                playerAnswer = Console.ReadLine();
+                                Console.Clear();
+                            }
+                        }
+                        while (playerAnswer == "si" || playerAnswer == "Si");
+
+                        RPCompletion = 1;
+                    }
+
+                    if (decision != 1 && decision != 2 && decision != 3)
+                    {
+                        Console.WriteLine("Debes ingresar alguno de los valores válidos");
+                    }
+                }
+                while (decision != 1 && decision != 2 && decision != 3);
+                adventureCompletion = GHCompletion + BSCompletion + RPCompletion;
+            }
+            while (adventureCompletion != 3);
+
             Console.WriteLine("** FIN DE LA AVENTURA **");
+
             Console.ReadKey();
         }
     }
