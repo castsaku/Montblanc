@@ -20,7 +20,7 @@ namespace Montblanc
 
             Random rnd = new Random();
 
-            Console.WriteLine("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso. Para avanzar los dialogos, presiona una tecla.");
+            Console.WriteLine("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso. Para avanzar los diálogos, presiona una tecla.");
             Console.ReadKey();
             Console.Clear();
 
