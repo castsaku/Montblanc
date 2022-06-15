@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Montblanc.Player;
 
 namespace Montblanc
 {
     internal class Program
     {
+        static string playerName, playerAnswer, playerStrenght, playerDefense, playerDexterity;
+        static int playerStrenghtInt = 5, playerDefenseInt = 5, playerDexterityInt = 5, playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra;
+        static int randomEncounterChance;
+        static int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, distance, distanceRemaining;
+
+        static int decision, GHCompletion = 0, BSCompletion = 0, RPCompletion = 0, adventureCompletion = 0, GHID = 1, BSID = 2, RPID = 3;
+        static string ubicacionActual = "MONTBLANC";
+        static Random rnd = new Random();
+
         static void Main(string[] args)
         {
-            string playerName, playerAnswer, playerStrenght, playerDefense, playerDexterity, enemy;
-            int playerStrenghtInt = 5, playerDefenseInt = 5, playerDexterityInt = 5, playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra, playerLevel = 5, playerExp = 500;
-            double expCutoff = 600;
-            int enemyHealth, enemyHealthMax, enemyStrenght, enemyDefense, enemyDexterity, randomEncounterChance, enemyExp;
-            int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, combatAnswer, distance, distanceRemaining;
-
-            int decision, GHCompletion = 0, BSCompletion = 0, RPCompletion = 0, adventureCompletion = 0, GHID = 1, BSID = 2, RPID = 3;
-            string ubicacionActual = "MONTBLANC";
-
-            Random rnd = new Random();
-
             Console.WriteLine("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso. Para avanzar los diálogos, presiona una tecla.");
             Console.ReadKey();
             Console.Clear();
@@ -29,9 +28,11 @@ namespace Montblanc
             {
                 do
                 {
-                    Console.WriteLine("Primero cuentanos de ti, ¿Cual es tu nombre?");
-                    playerName = Console.ReadLine();
-                    Console.Clear();
+                    //Console.WriteLine("Primero cuentanos de ti, ¿Cual es tu nombre?");
+                    //playerName = Console.ReadLine();
+                    //Console.Clear();
+
+                    playerName = InputString("Primero cuentanos de ti, ¿Cual es tu nombre?");
 
                     if (string.IsNullOrEmpty(playerName))
                     {
@@ -48,7 +49,7 @@ namespace Montblanc
             }
             while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no" || playerAnswer == "nO");
 
-            Console.WriteLine("Ahora vamos a crear tu personaje. Comienzas en nivel " + playerLevel + ". Deberás distribuir 15 puntos entre tu Fuerza, Defensa, y Destreza");
+            Console.WriteLine("Ahora vamos a crear tu personaje. Comienzas en nivel 5. Deberás distribuir 15 puntos entre tu Fuerza, Defensa, y Destreza");
             Console.ReadKey();
             Console.Clear();
 
@@ -59,74 +60,89 @@ namespace Montblanc
                     statBudget = 0;
                     do
                     {
-                        Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza? Esto determinará cuando daño harás a los enemigos.");
+                        Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza? Esto determinará cuanto daño harás a los enemigos.");
                         playerStrenght = (Console.ReadLine());
+                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerStrenght))
                         {
-                            Console.Clear();
                             Console.WriteLine("Debe ingresar un valor.");
                             Console.ReadKey();
                             Console.Clear();
                         }
+
+                        if (int.Parse(playerStrenght) < 0)
+                        {
+                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                     }
-                    while (string.IsNullOrEmpty(playerStrenght));
+                    while (string.IsNullOrEmpty(playerStrenght) || int.Parse(playerStrenght) < 0);
 
                     playerStrenghtInt += int.Parse(playerStrenght);
-
-                    Console.WriteLine();
 
                     do
                     {
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa? Esto deterimanará cuanto daño bloquearás de tus enemigos.");
                         playerDefense = (Console.ReadLine());
+                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerDefense))
                         {
-                            Console.Clear();
                             Console.WriteLine("Debe ingresar un valor.");
                             Console.ReadKey();
                             Console.Clear();
                         }
+
+                        if (int.Parse(playerDefense) < 0)
+                        {
+                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                     }
-                    while (string.IsNullOrEmpty(playerDefense));
+                    while (string.IsNullOrEmpty(playerDefense) || int.Parse(playerDefense) < 0);
 
                     playerDefenseInt += int.Parse(playerDefense);
-
-                    Console.WriteLine();
 
                     do
                     {
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza? Esto influirá en tu probabilidad de golpear enemigos.");
                         playerDexterity = (Console.ReadLine());
+                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerDexterity))
                         {
-                            Console.Clear();
                             Console.WriteLine("Debe ingresar un valor.");
                             Console.ReadKey();
                             Console.Clear();
                         }
+
+                        if (int.Parse(playerDexterity) < 0)
+                        {
+                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                     }
-                    while (string.IsNullOrEmpty(playerDexterity));
+                    while (string.IsNullOrEmpty(playerDexterity) || int.Parse(playerDexterity) < 0);
 
                     playerDexterityInt += int.Parse(playerDexterity);
 
-                    Console.WriteLine();
-
                     statBudget = playerStrenghtInt + playerDefenseInt + playerDexterityInt;
 
-                    if (statBudget < 15)
+                    if (statBudget < 30)
                     {
-                        Console.WriteLine("¡Te sobran " + (15 - statBudget) + " puntos! Asigna tus puntos de nuevo");
+                        Console.WriteLine("¡Te sobran " + (30 - statBudget) + " puntos! Asigna tus puntos de nuevo");
                         Console.ReadKey();
                         Console.Clear();
 
                     }
 
-                    if (statBudget > 15)
+                    if (statBudget > 30)
                     {
-                        Console.WriteLine("¡Te pasaste! Sólo tienes 18 puntos para repartir");
+                        Console.WriteLine("¡Te pasaste! Sólo tienes 15 puntos para repartir");
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -138,6 +154,9 @@ namespace Montblanc
                 Console.Clear();
             }
             while (playerAnswer == "No" || playerAnswer == "no");
+
+            Player player = new Player(playerName, playerStrenghtInt, playerDefenseInt, playerDexterityInt);
+            Player player2 = new Player("Neme", 10, 15, 30);
 
             playerHealthMax = 30;
 
@@ -157,9 +176,9 @@ namespace Montblanc
             Console.WriteLine("Recibiste: Espada Corta");
             Console.WriteLine("+4 Fuerza, +2 Defensa, +4 Destreza");
 
-            playerStrenght += 4;
-            playerDefense += 2;
-            playerDexterity += 4;
+            player.PlayerStrenghtInt += 4;
+            player.PlayerDefenseInt += 2;
+            player.PlayerDexterityInt += 4;
 
             Console.ReadKey();
             Console.Clear();
@@ -178,157 +197,10 @@ namespace Montblanc
             Console.ReadKey();
             Console.Clear();
 
-            do
-            {
-                enemy = "Orco";
+            Enemy orco = new Enemy();
+            orco.crearOrco();
 
-                enemyHealthMax = 40;
-                enemyStrenght = 10;
-                enemyDexterity = 10;
-                enemyDefense = 10;
-                enemyExp = 100;
-
-                enemyHealth = enemyHealthMax;
-                playerHealth = playerHealthMax;
-                do
-                {
-                    do
-                    {
-                        Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al " + enemy + " le quedan " + enemyHealth + "! ¿Que deseas hacer?");
-                        Console.WriteLine();
-                        Console.WriteLine("Ingresa 1 para ATACAR");
-                        Console.WriteLine("Ingresa 2 para DEFENDERTE");
-
-                        playerDamage = playerStrenghtInt + rnd.Next(1, 6) - enemyDefense + rnd.Next(1, 3);
-                        enemyDamage = enemyStrenght + rnd.Next(1, 6) - playerDefenseInt + rnd.Next(1, 3);
-
-                        playerHitChance = playerDexterityInt + rnd.Next(1, 8);
-                        enemyHitChance = enemyDexterity + rnd.Next(1, 8);
-
-                        if (enemyDamage < 0)
-                        {
-                            enemyDamage = 0;
-                        }
-
-                        if (playerDamage < 0)
-                        {
-                            playerDamage = 0;
-                        }
-
-                        playerAnswer = Console.ReadLine();
-                        Console.Clear();
-
-                        if (string.IsNullOrEmpty(playerAnswer))
-                        {
-                            Console.WriteLine("Debe ingresar una opcón.");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                    }
-                    while (playerAnswer != "1" && playerAnswer != "2" && string.IsNullOrEmpty(playerAnswer));
-
-                    if (playerAnswer == "1")
-                    {
-                        if (playerHitChance < hitChance)
-                        {
-                            Console.WriteLine("¡Tu ataque falló!");
-                        }
-                        else
-                        {
-                            enemyHealth -= playerDamage;
-                            Console.WriteLine("El " + enemy + " recibe " + playerDamage + " puntos de daño.");
-                        }
-
-                        if (enemyHitChance < hitChance)
-                        {
-                            Console.WriteLine("¡El ataque del " + enemy + " falló!");
-                        }
-                        else
-                        {
-                            if (enemyDamage < 0)
-                            {
-                                enemyDamage = 0;
-                            }
-
-                            playerHealth -= enemyDamage;
-                            Console.WriteLine("Recibiste " + enemyDamage + " puntos de daño.");
-                        }
-                    }
-
-                    if (playerAnswer == "2")
-                    {
-                        if (enemyHitChance < hitChance)
-                        {
-                            Console.WriteLine("¡El ataque del " + enemy + " falló!");
-                        }
-                        else
-                        {
-                            blocked = enemyDamage + playerDefenseInt;
-                            playerHealth += (blocked / 2);
-                            Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
-                            Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
-                            if (playerHealth > playerHealthMax)
-                            {
-                                Console.WriteLine("¡Estás al máximo de vida!");
-                                playerHealth = playerHealthMax;
-                            }
-                        }
-                    }
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-                while (enemyHealth > 0 && playerHealth > 0);
-
-                if (enemyHealth <= 0)
-                {
-                    Console.Clear();
-                    Console.WriteLine(enemy + ": ¡Buajajaja! Nada mal para tu primer combate.");
-                    Console.ReadKey();
-                    Console.Clear();
-
-                    playerExp += enemyExp;
-
-                    if (playerExp >= expCutoff)
-                    {
-                        playerLevel += 1;
-                        expCutoff = expCutoff * 1.5;
-
-                        Console.WriteLine("¡Subiste a nivel " + playerLevel + "!");
-
-                        Console.ReadKey();
-
-                        playerHealthMaxExtra = rnd.Next(2, 5);
-                        Console.WriteLine("¡Tu vida máxima ha aumentado en " + playerHealthMaxExtra + " puntos!");
-                        Console.ReadKey();
-
-                        strenghtExtra = rnd.Next(2, 5);
-                        Console.WriteLine("¡Ganaste " + strenghtExtra + " puntos de fuerza!");
-                        Console.ReadKey();
-
-                        defenseExtra = rnd.Next(2, 5);
-                        Console.WriteLine("¡Ganaste " + defenseExtra + " puntos de defensa!");
-                        Console.ReadKey();
-
-                        dexterityExtra = rnd.Next(2, 5);
-                        Console.WriteLine("¡Ganaste " + dexterityExtra + " puntos de destreza!");
-                        Console.ReadKey();
-
-                        playerHealthMax += playerHealthMaxExtra;
-                        playerStrenghtInt += strenghtExtra;
-                        playerDefenseInt += defenseExtra;
-                        playerDexterityInt += defenseExtra;
-
-                    }
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(enemy + ": Che ponéle ganas vieja. Hazte más fuerte y vuelve a retarme.");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-            }
-            while (playerHealth == 0 && enemyHealth != 0);
+            Combate(player, orco);
 
             Console.Clear();
 
@@ -400,149 +272,10 @@ namespace Montblanc
 
                             if (randomEncounterChance <= 2)
                             {
-                                do
-                                {
-                                    enemy = "Zombi";
+                                Enemy zombi = new Enemy();
+                                zombi.crearZombi();
 
-                                    enemyHealth = 20;
-                                    enemyStrenght = 8;
-                                    enemyDexterity = 8;
-                                    enemyDefense = 12;
-                                    enemyExp = 60;
-
-                                    playerHealth = playerHealthMax;
-                                    do
-                                    {
-                                        do
-                                        {
-                                            Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡Al " + enemy + " le quedan " + enemyHealth + "! ¿Que deseas hacer?");
-                                            Console.WriteLine();
-                                            Console.WriteLine("Ingresa 1 para ATACAR");
-                                            Console.WriteLine("Ingresa 2 para DEFENDERTE");
-
-                                            playerDamage = playerStrenghtInt + rnd.Next(1, 6) - enemyDefense + rnd.Next(1, 3);
-                                            enemyDamage = enemyStrenght + rnd.Next(1, 6) - playerDefenseInt + rnd.Next(1, 3);
-
-                                            playerHitChance = playerDexterityInt + rnd.Next(1, 15);
-                                            enemyHitChance = enemyDexterity + rnd.Next(1, 15);
-
-                                            if (enemyDamage < 0)
-                                            {
-                                                enemyDamage = 0;
-                                            }
-
-                                            if (playerDamage < 0)
-                                            {
-                                                playerDamage = 0;
-                                            }
-
-                                            playerAnswer = Console.ReadLine();
-                                            Console.Clear();
-
-                                            if (string.IsNullOrEmpty(playerAnswer))
-                                            {
-                                                Console.WriteLine("Debe ingresar una opcón.");
-                                                Console.ReadKey();
-                                                Console.Clear();
-                                            }
-                                        }
-                                        while (playerAnswer != "1" && playerAnswer != "2" && string.IsNullOrEmpty(playerAnswer));
-
-
-                                        if (playerAnswer == "1")
-                                        {
-                                            if (playerHitChance < hitChance)
-                                            {
-                                                Console.WriteLine("¡Tu ataque falló!");
-                                            }
-                                            else
-                                            {
-                                                enemyHealth -= playerDamage;
-                                                Console.WriteLine("El " + enemy + " recibe " + playerDamage + " puntos de daño.");
-                                            }
-
-                                            if (enemyHitChance < hitChance)
-                                            {
-                                                Console.WriteLine("¡El ataque del " + enemy + " falló!");
-                                            }
-                                            else
-                                            {
-                                                playerHealth -= enemyDamage;
-                                                Console.WriteLine("Recibiste " + enemyDamage + " puntos de daño.");
-                                            }
-                                        }
-
-                                        if (playerAnswer == "2")
-                                        {
-                                            if (enemyHitChance < hitChance)
-                                            {
-                                                Console.WriteLine("¡El ataque del " + enemy + " falló!");
-                                            }
-                                            else
-                                            {
-                                                blocked = enemyDamage + playerDefenseInt;
-                                                playerHealth += (blocked / 2);
-                                                Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
-                                                Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
-                                                if (playerHealth > playerHealthMax)
-                                                {
-                                                    Console.WriteLine("¡Estás al máximo de vida!");
-                                                    playerHealth = playerHealthMax;
-                                                }
-                                            }
-                                        }
-                                        Console.ReadKey();
-                                        Console.Clear();
-                                    }
-                                    while (enemyHealth > 0 && playerHealth > 0);
-
-                                    if (enemyHealth <= 0)
-                                    {
-                                        Console.WriteLine("¡Ganaste " + enemyExp + " puntos de experiencia!");
-                                        playerExp += enemyExp;
-
-
-                                        if (playerExp >= expCutoff)
-                                        {
-                                            playerLevel += 1;
-                                            expCutoff = expCutoff * 1.5;
-
-                                            Console.WriteLine("¡Subiste a nivel " + playerLevel + "!");
-
-                                            Console.ReadKey();
-
-                                            playerHealthMaxExtra = rnd.Next(2, 5);
-                                            Console.WriteLine("¡Tu vida máxima ha aumentado en " + playerHealthMaxExtra + " puntos!");
-                                            Console.ReadKey();
-
-                                            strenghtExtra = rnd.Next(2, 5);
-                                            Console.WriteLine("¡Ganaste " + strenghtExtra + " puntos de fuerza!");
-                                            Console.ReadKey();
-
-                                            defenseExtra = rnd.Next(2, 5);
-                                            Console.WriteLine("¡Ganaste " + defenseExtra + " puntos de defensa!");
-                                            Console.ReadKey();
-
-                                            dexterityExtra = rnd.Next(2, 5);
-                                            Console.WriteLine("¡Ganaste " + dexterityExtra + " puntos de destreza!");
-                                            Console.ReadKey();
-
-                                            playerHealthMax += playerHealthMaxExtra;
-                                            playerStrenghtInt += strenghtExtra;
-                                            playerDefenseInt += defenseExtra;
-                                            playerDexterityInt += defenseExtra;
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("¡Tu historia no puede terminar así!");
-                                        Console.ReadKey();
-                                        Console.Clear();
-                                    }
-                                }
-                                while (playerHealth == 0 && enemyHealth != 0);
+                                Combate(player, zombi);
                             }
                         }
                     }
@@ -614,128 +347,12 @@ namespace Montblanc
                         Console.ReadKey();
                         Console.Clear();
 
-                        Console.WriteLine("¡Encontraste el arma divina! ¡Nada podrá resistir tus ataques!");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        playerStrenghtInt = playerStrenghtInt + 90;
-
-                        Console.WriteLine("TUS STATS SE FUERON A LA CHUCHA");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        do
-                        {
-                            enemy = "Al'Dragon";
-
-                            enemyHealth = 60;
-                            enemyStrenght = 15;
-                            enemyDexterity = 15;
-                            enemyDefense = 15;
-
-                            playerHealth = 35;
-
-                            do
-                            {
-                                Console.Clear();
-                                Console.WriteLine("¡Te quedan " + playerHealth + " puntos de vida! ¡A " + enemy + " le quedan " + enemyHealth + "! ¿Que deseas hacer?");
-                                Console.WriteLine();
-                                Console.WriteLine("Ingresa 1 para ATACAR");
-                                Console.WriteLine("Ingresa 2 para DEFENDERTE");
-
-                                playerDamage = playerStrenghtInt + rnd.Next(1, 10) - enemyDefense + rnd.Next(1, 5);
-                                enemyDamage = enemyStrenght + rnd.Next(1, 10) - playerDefenseInt + rnd.Next(1, 5);
-
-                                playerHitChance = playerDexterityInt + rnd.Next(1, 13);
-                                enemyHitChance = enemyDexterity + rnd.Next(1, 13);
-
-                                if (enemyDamage < 0)
-                                {
-                                    enemyDamage = 0;
-                                }
-
-                                if (playerDamage < 0)
-                                {
-                                    playerDamage = 0;
-                                }
-
-                                combatAnswer = int.Parse(Console.ReadLine());
-
-                                Console.Clear();
-
-                                if (combatAnswer == 1)
-                                {
-                                    if (playerHitChance < hitChance)
-                                    {
-                                        Console.WriteLine("¡Tu ataque falló!");
-                                    }
-                                    else
-                                    {
-                                        enemyHealth -= playerDamage;
-                                        Console.WriteLine("El " + enemy + " recibe " + playerDamage + " puntos de daño.");
-                                    }
-
-                                    if (enemyHitChance < hitChance)
-                                    {
-                                        Console.WriteLine("¡El ataque del " + enemy + " falló!");
-                                    }
-                                    else
-                                    {
-                                        playerHealth -= enemyDamage;
-                                        Console.WriteLine("Recibiste " + enemyDamage + " puntos de daño.");
-                                    }
-                                }
-
-                                if (combatAnswer == 2)
-                                {
-                                    if (enemyHitChance < hitChance)
-                                    {
-                                        Console.WriteLine("¡El ataque del Dragon falló!");
-                                    }
-                                    else
-                                    {
-                                        blocked = enemyDamage + playerDefenseInt;
-                                        playerHealth += (blocked / 2);
-                                        Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
-                                        Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
-                                        if (playerHealth > playerHealthMax)
-                                        {
-                                            Console.WriteLine("¡Estás al máximo de vida!");
-                                            playerHealth = playerHealthMax;
-                                        }
-                                    }
-                                }
-                                Console.ReadKey();
-                            }
-                            while (enemyHealth > 0 && playerHealth > 0);
-
-                            if (enemyHealth <= 0)
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Se murio el dragon we");
-                                Console.ReadKey();
-                                Console.Clear();
-                                playerAnswer = "no";
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Te moriste we");
-                                Console.ReadKey();
-                                Console.Clear();
-                                Console.WriteLine("** ¿QUIERES REINTENTAR EL COMBATE? **");
-                                playerAnswer = Console.ReadLine();
-                                Console.Clear();
-                            }
-                        }
-                        while (playerAnswer == "si" || playerAnswer == "Si");
-
                         RPCompletion = 1;
                     }
 
                     if (decision != 1 && decision != 2 && decision != 3)
                     {
-                        Console.WriteLine("Debes ingresar alguno de los valores válidos");
+                        InvalidValue();
                     }
                 }
                 while (decision != 1 && decision != 2 && decision != 3);
@@ -746,6 +363,200 @@ namespace Montblanc
             Console.WriteLine("** FIN DE LA AVENTURA **");
 
             Console.ReadKey();
+        }
+
+        static void Combate(Player player, Enemy enemy)
+        {
+            do
+            {
+                do
+                {
+                    do
+                    {
+                        Console.WriteLine("¡Te quedan " + player.PlayerHealth + " puntos de vida! ¡Al " + enemy.EnemyName + " le quedan " + enemy.EnemyHealth + "! ¿Que deseas hacer?");
+                        Console.WriteLine();
+                        Console.WriteLine("Ingresa 1 para ATACAR");
+                        Console.WriteLine("Ingresa 2 para DEFENDERTE");
+
+                        playerDamage = player.PlayerStrenghtInt + rnd.Next(1, 6) - enemy.EnemyDefense + rnd.Next(1, 3);
+                        enemyDamage = enemy.EnemyStrenght + rnd.Next(1, 6) - player.PlayerDefenseInt + rnd.Next(1, 3);
+
+                        playerHitChance = player.PlayerDexterityInt + rnd.Next(1, 8);
+                        enemyHitChance = enemy.EnemyDexterity + rnd.Next(1, 8);
+
+                        if (enemyDamage < 0)
+                        {
+                            enemyDamage = 0;
+                        }
+
+                        if (playerDamage < 0)
+                        {
+                            playerDamage = 0;
+                        }
+
+                        playerAnswer = Console.ReadLine();
+                        Console.Clear();
+
+                        if (playerAnswer != "1" && playerAnswer != "2")
+                        {
+                            Console.WriteLine("Su elección no es válida");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+
+                        if (string.IsNullOrEmpty(playerAnswer))
+                        {
+                            Console.WriteLine("Debe ingresar una opcón.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                    }
+                    while (playerAnswer != "1" && playerAnswer != "2" && string.IsNullOrEmpty(playerAnswer));
+
+                    if (playerAnswer == "1")
+                    {
+                        Attack(player, enemy);
+                    }
+
+                    if (playerAnswer == "2")
+                    {
+                        Defend(player, enemy);
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                while (enemy.EnemyHealth > 0 && player.PlayerHealth > 0);
+
+                if (enemy.EnemyHealth <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine(enemy.EnemyName + ": " + enemy.VictoryMessage);
+                    Console.ReadKey();
+                    Console.Clear();
+
+                    Console.WriteLine("Ganaste " + enemy.EnemyExp + " puntos de experiencia");
+
+                    player.PlayerExp += enemy.EnemyExp;
+
+                    if (player.PlayerExp >= player.ExpCutoff)
+                    {
+                        LevelUp(player);
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine(enemy.EnemyName + ": " + enemy.DefeatMessage);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+            while (player.PlayerHealth == 0 && enemy.EnemyHealth != 0);
+        }
+
+        static void LevelUp(Player player)
+        {
+            player.PlayerLevel += 1;
+            player.ExpCutoff = player.ExpCutoff * 1.5;
+
+            Console.WriteLine("¡Subiste a nivel " + player.PlayerLevel + "!");
+            Console.ReadKey();
+
+            playerHealthMaxExtra = rnd.Next(2, 5);
+            Console.WriteLine("¡Tu vida máxima ha aumentado en " + playerHealthMaxExtra + " puntos!");
+            Console.ReadKey();
+
+            strenghtExtra = rnd.Next(2, 5);
+            Console.WriteLine("¡Ganaste " + strenghtExtra + " puntos de fuerza!");
+            Console.ReadKey();
+
+            defenseExtra = rnd.Next(2, 5);
+            Console.WriteLine("¡Ganaste " + defenseExtra + " puntos de defensa!");
+            Console.ReadKey();
+
+            dexterityExtra = rnd.Next(2, 5);
+            Console.WriteLine("¡Ganaste " + dexterityExtra + " puntos de destreza!");
+            Console.ReadKey();
+
+            player.PlayerHealthMax += playerHealthMaxExtra;
+            player.PlayerStrenghtInt += strenghtExtra;
+            player.PlayerDefenseInt += defenseExtra;
+            player.PlayerDexterityInt += dexterityExtra;
+        }
+
+        static void Defend(Player player, Enemy enemy)
+        {
+            if (enemyHitChance < hitChance)
+            {
+                Console.WriteLine("¡El ataque del " + enemy.EnemyName + " falló!");
+            }
+            else
+            {
+                blocked = enemyDamage + player.PlayerDefenseInt;
+                player.PlayerHealth += (blocked / 2);
+                Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
+                Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
+                if (player.PlayerHealth > player.PlayerHealthMax)
+                {
+                    Console.WriteLine("¡Estás al máximo de vida!");
+                    player.PlayerHealth = player.PlayerHealthMax;
+                }
+            }
+        }
+
+        static void Attack(Player player, Enemy enemy)
+        {
+            if (playerHitChance < hitChance)
+            {
+                Console.WriteLine("¡Tu ataque falló!");
+            }
+            else
+            {
+                enemy.EnemyHealth -= playerDamage;
+                Console.WriteLine("El " + enemy.EnemyName + " recibe " + playerDamage + " puntos de daño.");
+            }
+
+            if (enemyHitChance < hitChance)
+            {
+                Console.WriteLine("¡El ataque del " + enemy.EnemyName + " falló!");
+            }
+            if (enemyHitChance >= hitChance)
+            {
+                if (enemyDamage < 0)
+                {
+                    enemyDamage = 0;
+                }
+
+                if (enemy.EnemyHealth <= 0)
+                {
+                    Console.WriteLine("¡El " + enemy.EnemyName + " ha sido derrotado!");
+                }
+                else
+                {
+                    player.PlayerHealth -= enemyDamage;
+                    Console.WriteLine("Recibiste " + enemyDamage + " puntos de daño.");
+                }
+            }
+        }
+
+        static void InvalidValue()
+        {
+            Console.WriteLine("Debes ingresar alguno de los valores válidos");
+        }
+
+        static void Error(string texto)
+        {
+            Console.WriteLine(texto);
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        static string InputString(string texto)
+        {
+            Console.WriteLine(texto);
+            string var = Console.ReadLine();
+            Console.Clear();
+            return var;
         }
     }
 }
