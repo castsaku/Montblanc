@@ -28,30 +28,30 @@ namespace Montblanc
 
         public void crearOrco()
         {
-            enemyHealth = 40;
-            enemyHealthMax = enemyHealth;
+            enemyHealthMax = 40;
+            enemyHealth = enemyHealthMax;
             enemyStrenght = 10;
             enemyDefense = 10;
             enemyDexterity = 10;
             enemyExp = 100;
 
             enemyName = "Orco";
-            defeatMessage = "¡Buajaja! Nada mal para tu primer combate";
-            victoryMessage = "Che vieja ponele ganas";
+            victoryMessage = "¡Buajaja! Nada mal para tu primer combate";
+            defeatMessage = "Che vieja ponele ganas";
         }
 
         public void crearZombi()
         {
-            enemyHealth = 20;
-            enemyHealthMax = enemyHealth;
+            enemyHealthMax = 20;
+            enemyHealth = enemyHealthMax;
             enemyStrenght = 8;
             enemyDefense = 8;
             enemyDexterity = 8;
             enemyExp = 60;
 
             enemyName = "Zombi";
-            defeatMessage = "GANE UGH";
             victoryMessage = "PERDI UGH";
+            defeatMessage = "GANE UGH";
         }
     }
 }

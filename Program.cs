@@ -62,7 +62,6 @@ namespace Montblanc
                     {
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza? Esto determinará cuanto daño harás a los enemigos.");
                         playerStrenght = (Console.ReadLine());
-                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerStrenght))
                         {
@@ -70,12 +69,14 @@ namespace Montblanc
                             Console.ReadKey();
                             Console.Clear();
                         }
-
-                        if (int.Parse(playerStrenght) < 0)
+                        else
                         {
-                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                            Console.ReadKey();
-                            Console.Clear();
+                            if (int.Parse(playerStrenght) < 0)
+                            {
+                                Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
                         }
                     }
                     while (string.IsNullOrEmpty(playerStrenght) || int.Parse(playerStrenght) < 0);
@@ -86,7 +87,6 @@ namespace Montblanc
                     {
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa? Esto deterimanará cuanto daño bloquearás de tus enemigos.");
                         playerDefense = (Console.ReadLine());
-                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerDefense))
                         {
@@ -94,12 +94,14 @@ namespace Montblanc
                             Console.ReadKey();
                             Console.Clear();
                         }
-
-                        if (int.Parse(playerDefense) < 0)
+                        else
                         {
-                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                            Console.ReadKey();
-                            Console.Clear();
+                            if (int.Parse(playerDefense) < 0)
+                            {
+                                Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
                         }
                     }
                     while (string.IsNullOrEmpty(playerDefense) || int.Parse(playerDefense) < 0);
@@ -110,7 +112,6 @@ namespace Montblanc
                     {
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza? Esto influirá en tu probabilidad de golpear enemigos.");
                         playerDexterity = (Console.ReadLine());
-                        Console.Clear();
 
                         if (string.IsNullOrEmpty(playerDexterity))
                         {
@@ -160,7 +161,6 @@ namespace Montblanc
 
             playerHealthMax = 30;
 
-            Console.Clear();
             Console.WriteLine("¡Perfecto! Con esto ya podemos-");
             Console.ReadKey();
             Console.Clear();
