@@ -28,10 +28,6 @@ namespace Montblanc
             {
                 do
                 {
-                    //Console.WriteLine("Primero cuentanos de ti, ¿Cual es tu nombre?");
-                    //playerName = Console.ReadLine();
-                    //Console.Clear();
-
                     playerName = InputString("Primero cuentanos de ti, ¿Cual es tu nombre?");
 
                     if (string.IsNullOrEmpty(playerName))
@@ -63,21 +59,8 @@ namespace Montblanc
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza? Esto determinará cuanto daño harás a los enemigos.");
                         playerStrenght = (Console.ReadLine());
 
-                        if (string.IsNullOrEmpty(playerStrenght))
-                        {
-                            Console.WriteLine("Debe ingresar un valor.");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        else
-                        {
-                            if (int.Parse(playerStrenght) < 0)
-                            {
-                                Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                        }
+                        StatValidation(playerStrenght);
+
                     }
                     while (string.IsNullOrEmpty(playerStrenght) || int.Parse(playerStrenght) < 0);
 
@@ -88,21 +71,7 @@ namespace Montblanc
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa? Esto deterimanará cuanto daño bloquearás de tus enemigos.");
                         playerDefense = (Console.ReadLine());
 
-                        if (string.IsNullOrEmpty(playerDefense))
-                        {
-                            Console.WriteLine("Debe ingresar un valor.");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        else
-                        {
-                            if (int.Parse(playerDefense) < 0)
-                            {
-                                Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                        }
+                        StatValidation(playerDefense);
                     }
                     while (string.IsNullOrEmpty(playerDefense) || int.Parse(playerDefense) < 0);
 
@@ -113,19 +82,7 @@ namespace Montblanc
                         Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza? Esto influirá en tu probabilidad de golpear enemigos.");
                         playerDexterity = (Console.ReadLine());
 
-                        if (string.IsNullOrEmpty(playerDexterity))
-                        {
-                            Console.WriteLine("Debe ingresar un valor.");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-
-                        if (int.Parse(playerDexterity) < 0)
-                        {
-                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
+                        StatValidation(playerDexterity);
                     }
                     while (string.IsNullOrEmpty(playerDexterity) || int.Parse(playerDexterity) < 0);
 
@@ -557,6 +514,25 @@ namespace Montblanc
             string var = Console.ReadLine();
             Console.Clear();
             return var;
+        }
+
+        static void StatValidation(string stat)
+        {
+            if (string.IsNullOrEmpty(stat))
+            {
+                Console.WriteLine("Debe ingresar un valor.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                if (int.Parse(stat) < 0)
+                {
+                    Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
         }
     }
 }
