@@ -9,7 +9,7 @@ namespace Montblanc
 {
     internal class Program
     {
-        static string playerName, playerAnswer, playerStrenght, playerDefense, playerDexterity;
+        static string playerAnswer, playerStrenght, playerDefense, playerDexterity;
         static int playerStrenghtInt = 5, playerDefenseInt = 5, playerDexterityInt = 5, playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra;
         static int randomEncounterChance;
         static int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, distance, distanceRemaining;
@@ -20,146 +20,69 @@ namespace Montblanc
 
         static void Main(string[] args)
         {
-            Console.WriteLine("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso. Para avanzar los diálogos, presiona una tecla.");
-            Console.ReadKey();
-            Console.Clear();
+            Player player = new Player();
 
+            DisplayDialogue("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso.Para avanzar los diálogos, presiona una tecla.");
             do
             {
                 do
                 {
-                    playerName = InputString("Primero cuentanos de ti, ¿Cual es tu nombre?");
+                    player.PlayerName = Question("Primero cuentanos de ti, ¿Cual es tu nombre?");
 
-                    if (string.IsNullOrEmpty(playerName))
+                    if (string.IsNullOrEmpty(player.PlayerName))
                     {
-                        Console.WriteLine("Debe ingresar un nombre");
-                        Console.ReadKey();
-                        Console.Clear();
+                        ErrorMessage("Debe ingresar un nombre");
                     }
                 }
-                while (string.IsNullOrEmpty(playerName));
+                while (string.IsNullOrEmpty(player.PlayerName));
 
-                Console.WriteLine("¿Te llamas " + playerName + "? Si/No");
-                playerAnswer = Console.ReadLine();
-                Console.Clear();
+                playerAnswer = Question("¿Te llamas " + player.PlayerName + "? Si / No");
             }
-            while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no" || playerAnswer == "nO");
+            while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no");
 
-            Console.WriteLine("Ahora vamos a crear tu personaje. Comienzas en nivel 5. Deberás distribuir 15 puntos entre tu Fuerza, Defensa, y Destreza");
-            Console.ReadKey();
-            Console.Clear();
+            DisplayDialogue("Ahora vamos a crear tu personaje. Comienzas en nivel 5. Deberás distribuir 15 puntos entre tu Fuerza, Defensa, y Destreza");
 
             do
             {
                 do
                 {
                     statBudget = 0;
-                    do
-                    {
-                        Console.WriteLine("¿Cuantos puntos quieres invertir en tu Fuerza? Esto determinará cuanto daño harás a los enemigos.");
-                        playerStrenght = (Console.ReadLine());
 
-                        StatValidation(playerStrenght);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?", playerStrenght, player.PlayerStrenght);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu defensa?", playerDefense, playerDefenseInt);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu destreza?", playerDexterity, playerDexterityInt);
 
-                    }
-                    while (string.IsNullOrEmpty(playerStrenght) || int.Parse(playerStrenght) < 0);
+                    statBudget = player.PlayerStrenght + player.PlayerDefense + player.PlayerDexterity;
 
-                    playerStrenghtInt += int.Parse(playerStrenght);
-
-                    do
-                    {
-                        Console.WriteLine("¿Cuantos puntos quieres invertir en tu Defensa? Esto deterimanará cuanto daño bloquearás de tus enemigos.");
-                        playerDefense = (Console.ReadLine());
-
-                        StatValidation(playerDefense);
-                    }
-                    while (string.IsNullOrEmpty(playerDefense) || int.Parse(playerDefense) < 0);
-
-                    playerDefenseInt += int.Parse(playerDefense);
-
-                    do
-                    {
-                        Console.WriteLine("¿Cuantos puntos quieres invertir en tu Destreza? Esto influirá en tu probabilidad de golpear enemigos.");
-                        playerDexterity = (Console.ReadLine());
-
-                        StatValidation(playerDexterity);
-                    }
-                    while (string.IsNullOrEmpty(playerDexterity) || int.Parse(playerDexterity) < 0);
-
-                    playerDexterityInt += int.Parse(playerDexterity);
-
-                    statBudget = playerStrenghtInt + playerDefenseInt + playerDexterityInt;
-
-                    if (statBudget < 30)
-                    {
-                        Console.WriteLine("¡Te sobran " + (30 - statBudget) + " puntos! Asigna tus puntos de nuevo");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                    }
-
-                    if (statBudget > 30)
-                    {
-                        Console.WriteLine("¡Te pasaste! Sólo tienes 15 puntos para repartir");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
+                    StatBudgetValidation();
                 }
-                while (statBudget != 30);
+                while (statBudget != 15);
 
-                Console.WriteLine("Tienes " + playerStrenght + " puntos de fuerza, " + playerDefense + " puntos de defensa, y " + playerDexterity + " puntos de destreza. ¿Es correcto? Si/No");
-                playerAnswer = Console.ReadLine();
-                Console.Clear();
+                playerAnswer = Question("Tienes " + player.PlayerStrenght + "de fuerza, " + player.PlayerDefense + "de defensa, y " + player.PlayerDexterity + " de destreza, ¿Es correcto?");
+
             }
             while (playerAnswer == "No" || playerAnswer == "no");
 
-            Player player = new Player(playerName, playerStrenghtInt, playerDefenseInt, playerDexterityInt);
-            Player player2 = new Player("Neme", 10, 15, 30);
+            player.PlayerHealthMax = 30;
 
-            playerHealthMax = 30;
+            DisplayDialogue("¡Perfecto! Con esto ya podemos-");
+            DisplayDialogue("¡Oh no! ¡Se acerca un Orco! Vas a tener que luchar");
+            DisplayDialogue("Toma esta espada, debería ayudar en el combate");
+            DisplayDialogue("Recibiste: Espada Corta. \n+4 Fuerza, +2 Defensa, +4 Destreza.");
 
-            Console.WriteLine("¡Perfecto! Con esto ya podemos-");
-            Console.ReadKey();
-            Console.Clear();
+            player.PlayerStrenght += 4;
+            player.PlayerDefense += 2;
+            player.PlayerDexterity += 4;
 
-            Console.WriteLine("¡Oh no! ¡Se acerca un Orco! Vas a tener que luchar");
-            Console.ReadKey();
-            Console.Clear();
+            DisplayDialogue("Orco: ¿Si te diste cuenta que esto ahora es un tutorial no?");
+            DisplayDialogue("Orco: Bueno, es igual para mi, ¡Me estás dando la oportunidad de matarte!");
 
-            Console.WriteLine("Toma esta espada, debería ayudar en el combate");
-            Console.ReadKey();
-            Console.Clear();
-
-            Console.WriteLine("Recibiste: Espada Corta");
-            Console.WriteLine("+4 Fuerza, +2 Defensa, +4 Destreza");
-
-            player.PlayerStrenghtInt += 4;
-            player.PlayerDefenseInt += 2;
-            player.PlayerDexterityInt += 4;
-
-            Console.ReadKey();
-            Console.Clear();
-
-            Console.WriteLine("Orco: ¿Si te diste cuenta que esto ahora es un tutorial no?");
-            Console.ReadKey();
-            Console.Clear();
-
-            Console.WriteLine("Orco: Bueno, es igual para mi, ¡Me estás dando la oportunidad de matarte!");
-            Console.ReadKey();
-            Console.Clear();
-
-            Console.WriteLine("** COMIENZA EL COMBATE **");
-            Console.WriteLine("PARA LUCHAR EN ESTE JUEGO DEBERAS ATACAR O DEFENDERTE DEPENDIENDO DE LA NECESIDAD DE TU PERSONAJE");
-            Console.WriteLine("CADA TURNO TU PERSONAJE RECUPERARÁ LA MITAD DEL DAÑO BLOQUEADO AL DEFENDERTE");
-            Console.ReadKey();
-            Console.Clear();
+            CombatTutorial();
 
             Enemy orco = new Enemy();
             orco.crearOrco();
 
             Combate(player, orco);
-
-            Console.Clear();
 
             do
             {
@@ -186,25 +109,7 @@ namespace Montblanc
                         BSID = 1;
                     }
 
-                    Console.WriteLine("** PARA COMPLETAR ESTA AVENTURA DEBES VISITAR LOS 3 LUGARES Y SUPERAR SUS PRUEBAS **");
-                    Console.WriteLine();
-                    Console.WriteLine("Te encuentras en " + ubicacionActual + " y te quedan " + (3 - adventureCompletion) + " pruebas por superar. ¿Donde quieres ir?");
-                    Console.WriteLine();
-
-                    if (GHCompletion == 0)
-                    {
-                        Console.WriteLine(GHID + " GREENHILLS");
-                    }
-
-                    if (BSCompletion == 0)
-                    {
-                        Console.WriteLine(BSID + " BLUESTEEPS");
-                    }
-
-                    if (RPCompletion == 0)
-                    {
-                        Console.WriteLine(RPID + " REDPLAINS");
-                    }
+                    ThreeQuests();
 
                     Console.WriteLine();
 
@@ -326,19 +231,23 @@ namespace Montblanc
         {
             do
             {
+                player.PlayerHealth = player.PlayerHealthMax;
+                enemy.EnemyHealth = enemy.EnemyHealthMax;
+
                 do
                 {
                     do
                     {
+
                         Console.WriteLine("¡Te quedan " + player.PlayerHealth + " puntos de vida! ¡Al " + enemy.EnemyName + " le quedan " + enemy.EnemyHealth + "! ¿Que deseas hacer?");
                         Console.WriteLine();
                         Console.WriteLine("Ingresa 1 para ATACAR");
                         Console.WriteLine("Ingresa 2 para DEFENDERTE");
 
-                        playerDamage = player.PlayerStrenghtInt + rnd.Next(1, 6) - enemy.EnemyDefense + rnd.Next(1, 3);
-                        enemyDamage = enemy.EnemyStrenght + rnd.Next(1, 6) - player.PlayerDefenseInt + rnd.Next(1, 3);
+                        playerDamage = player.PlayerStrenght + rnd.Next(1, 6) - enemy.EnemyDefense + rnd.Next(1, 3);
+                        enemyDamage = enemy.EnemyStrenght + rnd.Next(1, 6) - player.PlayerDefense + rnd.Next(1, 3);
 
-                        playerHitChance = player.PlayerDexterityInt + rnd.Next(1, 8);
+                        playerHitChance = player.PlayerDexterity + rnd.Next(1, 8);
                         enemyHitChance = enemy.EnemyDexterity + rnd.Next(1, 8);
 
                         if (enemyDamage < 0)
@@ -402,13 +311,12 @@ namespace Montblanc
                 }
                 else
                 {
-                    Console.Clear();
                     Console.WriteLine(enemy.EnemyName + ": " + enemy.DefeatMessage);
                     Console.ReadKey();
                     Console.Clear();
                 }
             }
-            while (player.PlayerHealth == 0 && enemy.EnemyHealth != 0);
+            while (player.PlayerHealth <= 0 && enemy.EnemyHealth > 0);
         }
 
         static void LevelUp(Player player)
@@ -436,9 +344,9 @@ namespace Montblanc
             Console.ReadKey();
 
             player.PlayerHealthMax += playerHealthMaxExtra;
-            player.PlayerStrenghtInt += strenghtExtra;
-            player.PlayerDefenseInt += defenseExtra;
-            player.PlayerDexterityInt += dexterityExtra;
+            player.PlayerStrenght += strenghtExtra;
+            player.PlayerDefense += defenseExtra;
+            player.PlayerDexterity += dexterityExtra;
         }
 
         static void Defend(Player player, Enemy enemy)
@@ -449,7 +357,7 @@ namespace Montblanc
             }
             else
             {
-                blocked = enemyDamage + player.PlayerDefenseInt;
+                blocked = enemyDamage + player.PlayerDefense;
                 player.PlayerHealth += (blocked / 2);
                 Console.WriteLine("¡Bloqueaste " + blocked + " de daño!");
                 Console.WriteLine("¡Te sanaste " + blocked / 2 + " puntos de vida!");
@@ -496,42 +404,111 @@ namespace Montblanc
             }
         }
 
+        static void DisplayDialogue(string dialogue)
+        {
+            Console.WriteLine(dialogue);
+            Console.ReadKey();
+            Console.Clear();
+        }
+
         static void InvalidValue()
         {
             Console.WriteLine("Debes ingresar alguno de los valores válidos");
         }
 
-        static void Error(string texto)
+        static void ErrorMessage(string texto)
         {
             Console.WriteLine(texto);
             Console.ReadKey();
             Console.Clear();
         }
 
-        static string InputString(string texto)
+        static string Question(string question)
         {
-            Console.WriteLine(texto);
-            string var = Console.ReadLine();
+            Console.WriteLine(question);
+            string answer = Console.ReadLine();
             Console.Clear();
-            return var;
+            return answer;
         }
 
-        static void StatValidation(string stat)
+        static void StatAsign(string texto, string stat, int statint)
         {
-            if (string.IsNullOrEmpty(stat))
+            do
             {
-                Console.WriteLine("Debe ingresar un valor.");
+                Console.WriteLine(texto);
+                stat = Console.ReadLine();
+
+                {
+                    if (string.IsNullOrEmpty(stat))
+                    {
+                        Console.WriteLine("Debe ingresar un valor.");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        if (int.Parse(stat) < 0)
+                        {
+                            Console.WriteLine("Debe ingresar un valor mayor a 0.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                    }
+                }
+            }
+            while (string.IsNullOrEmpty(stat) || int.Parse(stat) < 0);
+
+            statint += int.Parse(stat);
+        }
+
+        static void StatBudgetValidation()
+        {
+            if (statBudget < 15)
+            {
+                Console.WriteLine("¡Te sobran " + (15 - statBudget) + " puntos! Asigna tus puntos de nuevo");
+                Console.ReadKey();
+                Console.Clear();
+
+            }
+
+            if (statBudget > 15)
+            {
+                Console.WriteLine("¡Te pasaste! Sólo tienes 15 puntos para repartir");
                 Console.ReadKey();
                 Console.Clear();
             }
-            else
+        }
+
+        static void CombatTutorial()
+        {
+            Console.WriteLine("** COMIENZA EL COMBATE **");
+            Console.WriteLine("PARA LUCHAR EN ESTE JUEGO DEBERAS ATACAR O DEFENDERTE DEPENDIENDO DE LA NECESIDAD DE TU PERSONAJE");
+            Console.WriteLine("CADA TURNO TU PERSONAJE RECUPERARÁ LA MITAD DEL DAÑO BLOQUEADO AL DEFENDERTE");
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        static void ThreeQuests()
+        {
+            DisplayDialogue("** PARA COMPLETAR ESTA AVENTURA DEBES VISITAR LOS 3 LUGARES Y SUPERAR SUS PRUEBAS **\n");
+            Console.WriteLine();
+            Console.WriteLine("Te encuentras en " + ubicacionActual + " y te quedan " + (3 - adventureCompletion) + " pruebas por superar. ¿Donde quieres ir?");
+            Console.WriteLine();
+
+            if (GHCompletion == 0)
             {
-                if (int.Parse(stat) < 0)
-                {
-                    Console.WriteLine("Debe ingresar un valor mayor a 0.");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
+                Console.WriteLine(GHID + " GREENHILLS");
+            }
+
+            if (BSCompletion == 0)
+            {
+                Console.WriteLine(BSID + " BLUESTEEPS");
+            }
+
+            if (RPCompletion == 0)
+            {
+                Console.WriteLine(RPID + " REDPLAINS");
             }
         }
     }

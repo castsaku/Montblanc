@@ -9,15 +9,15 @@ namespace Montblanc
     internal class Player
     {
         private string playerName;
-        private int playerStrenghtInt, playerDefenseInt, playerDexterityInt, playerHealth, playerHealthMax, playerLevel, playerExp;
+        private int playerStrenght, playerDefense, playerDexterity, playerHealth, playerHealthMax, playerLevel, playerExp;
         private double expCutoff;
 
-        public Player (string playerName_, int playerStrenght_, int playerDefense_, int playerDexterity_)
+        public Player ()
         {
-            PlayerName = playerName_;
-            playerStrenghtInt = playerStrenght_;
-            playerDefenseInt = playerDefense_;
-            playerDexterityInt = playerDexterity_;
+            playerName = "";
+            playerStrenght = 5;
+            playerDefense = 5;
+            playerDexterity = 5;
             playerHealthMax = 30;
             playerHealth = playerHealthMax;
             playerLevel = 5;
@@ -26,9 +26,9 @@ namespace Montblanc
         }
 
         public string PlayerName { get => playerName; set => playerName = value; }
-        public int PlayerStrenghtInt { get => playerStrenghtInt; set => playerStrenghtInt = value; }
-        public int PlayerDefenseInt { get => playerDefenseInt; set => playerDefenseInt = value; }
-        public int PlayerDexterityInt { get => playerDexterityInt; set => playerDexterityInt = value; }
+        public int PlayerStrenght { get => playerStrenght; set => playerStrenght = value; }
+        public int PlayerDefense { get => playerDefense; set => playerDefense = value; }
+        public int PlayerDexterity { get => playerDexterity; set => playerDexterity = value; }
         public int PlayerHealth { get => playerHealth; set => playerHealth = value; }
         public int PlayerHealthMax { get => playerHealthMax; set => playerHealthMax = value; }
         public int PlayerLevel { get => playerLevel; set => playerLevel = value; }
