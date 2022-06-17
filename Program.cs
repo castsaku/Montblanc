@@ -9,8 +9,8 @@ namespace Montblanc
 {
     internal class Program
     {
-        static string playerAnswer, playerStrenght, playerDefense, playerDexterity;
-        static int playerStrenghtInt = 5, playerDefenseInt = 5, playerDexterityInt = 5, playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra;
+        static string playerAnswer;
+        static int playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra;
         static int randomEncounterChance;
         static int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, distance, distanceRemaining;
 
@@ -48,9 +48,9 @@ namespace Montblanc
                 {
                     statBudget = 0;
 
-                    StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?", playerStrenght, player.PlayerStrenght);
-                    StatAsign("¿Cuantos puntos quieres invertir en tu defensa?", playerDefense, playerDefenseInt);
-                    StatAsign("¿Cuantos puntos quieres invertir en tu destreza?", playerDexterity, playerDexterityInt);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?", player.PlayerStrenght);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu defensa?", player.PlayerDefense);
+                    StatAsign("¿Cuantos puntos quieres invertir en tu destreza?", player.PlayerDexterity);
 
                     statBudget = player.PlayerStrenght + player.PlayerDefense + player.PlayerDexterity;
 
@@ -431,8 +431,9 @@ namespace Montblanc
             return answer;
         }
 
-        static void StatAsign(string texto, string stat, int statint)
+        static void StatAsign(string texto, int statint)
         {
+            string stat;
             do
             {
                 Console.WriteLine(texto);
