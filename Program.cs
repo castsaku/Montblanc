@@ -10,7 +10,6 @@ namespace Montblanc
     internal class Program
     {
         static string playerAnswer;
-        static int playerHealthMaxExtra, strenghtExtra, defenseExtra, dexterityExtra;
         static int randomEncounterChance;
         static int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, distance, distanceRemaining;
 
@@ -47,6 +46,9 @@ namespace Montblanc
                 do
                 {
                     statBudget = 0;
+                    player.PlayerStrenght = 5;
+                    player.PlayerDefense = 5;
+                    player.PlayerDexterity = 5;
 
                     player.PlayerStrenght += StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?");
                     player.PlayerDefense += StatAsign("¿Cuantos puntos quieres invertir en tu defensa?");
@@ -74,8 +76,6 @@ namespace Montblanc
             player.PlayerDefense += 2;
             player.PlayerDexterity += 4;
 
-            Console.ReadKey();
-
             DisplayDialogue("Orco: ¿Si te diste cuenta que esto ahora es un tutorial no?");
             DisplayDialogue("Orco: Bueno, es igual para mi, ¡Me estás dando la oportunidad de matarte!");
 
@@ -93,8 +93,6 @@ namespace Montblanc
                     OptionNumberAssign();
 
                     ThreeQuests();
-
-                    Console.WriteLine();
 
                     decision = int.Parse(Console.ReadLine());
                     Console.Clear();
@@ -225,11 +223,8 @@ namespace Montblanc
                 if (enemy.EnemyHealth <= 0)
                 {
                     Console.Clear();
-                    Console.WriteLine(enemy.EnemyName + ": " + enemy.VictoryMessage);
-                    Console.ReadKey();
-                    Console.Clear();
-
-                    Console.WriteLine("Ganaste " + enemy.EnemyExp + " puntos de experiencia");
+                    DisplayDialogue(enemy.EnemyName + ": " + enemy.VictoryMessage);
+                    DisplayDialogue("Ganaste " + enemy.EnemyExp + " puntos de experiencia");
 
                     player.PlayerExp += enemy.EnemyExp;
 
@@ -252,32 +247,25 @@ namespace Montblanc
         {
             player.PlayerLevel += 1;
             player.ExpCutoff = player.ExpCutoff * 1.5;
-
+            
             Console.WriteLine("¡Subiste a nivel " + player.PlayerLevel + "!");
             Console.ReadKey();
 
-            playerHealthMaxExtra = rnd.Next(2, 5);
-            Console.WriteLine("¡Tu vida máxima ha aumentado en " + playerHealthMaxExtra + " puntos!");
-            Console.ReadKey();
-
-            strenghtExtra = rnd.Next(2, 5);
-            Console.WriteLine("¡Ganaste " + strenghtExtra + " puntos de fuerza!");
-            Console.ReadKey();
-
-            defenseExtra = rnd.Next(2, 5);
-            Console.WriteLine("¡Ganaste " + defenseExtra + " puntos de defensa!");
-            Console.ReadKey();
-
-            dexterityExtra = rnd.Next(2, 5);
-            Console.WriteLine("¡Ganaste " + dexterityExtra + " puntos de destreza!");
-            Console.ReadKey();
-
-            player.PlayerHealthMax += playerHealthMaxExtra;
-            player.PlayerStrenght += strenghtExtra;
-            player.PlayerDefense += defenseExtra;
-            player.PlayerDexterity += dexterityExtra;
-
+            StatIncrease("vida máxima", player.PlayerHealth);
+            StatIncrease("ataque", player.PlayerStrenght);
+            StatIncrease("defensa", player.PlayerDefense);
+            StatIncrease("destreza", player.PlayerDexterity);
             Console.Clear();
+        }
+
+        static void StatIncrease(string stat, int statint)
+        {
+            int statextra = rnd.Next(2, 5);
+            Console.WriteLine("¡Tu " + stat + " ha aumentado en " + statextra + " puntos!");
+            Console.ReadKey();
+            Console.WriteLine(statint + " -> " + (statint + statextra));
+            statint += statextra;
+            Console.ReadKey();
         }
 
         static void Defend(Player player, Enemy enemy)
@@ -424,7 +412,7 @@ namespace Montblanc
 
         static void ThreeQuests()
         {
-            DisplayDialogue("** PARA COMPLETAR ESTA AVENTURA DEBES VISITAR LOS 3 LUGARES Y SUPERAR SUS PRUEBAS **\n");
+            Console.WriteLine("** PARA COMPLETAR ESTA AVENTURA DEBES VISITAR LOS 3 LUGARES Y SUPERAR SUS PRUEBAS **\n");
             Console.WriteLine();
             Console.WriteLine("Te encuentras en " + ubicacionActual + " y te quedan " + (3 - adventureCompletion) + " pruebas por superar. ¿Donde quieres ir?");
             Console.WriteLine();
@@ -503,9 +491,6 @@ namespace Montblanc
             do
             {
                 Console.WriteLine(riddle);
-                Console.ReadKey();
-                Console.Clear();
-
                 playerAnswer = Console.ReadLine();
 
                 if (playerAnswer != "Humano" && playerAnswer != "humano")
@@ -514,9 +499,9 @@ namespace Montblanc
                     Console.ReadKey();
                     Console.Clear();
                 }
-
             }
             while (playerAnswer != ans1 && playerAnswer != ans2);
+            Console.Clear();
         }
     }
 }
