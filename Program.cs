@@ -10,7 +10,7 @@ namespace Montblanc
     internal class Program
     {
         static string playerAnswer;
-        static int playerHealth, playerHealthMaxExtra, playerHealthMax, strenghtExtra, defenseExtra, dexterityExtra;
+        static int playerHealthMaxExtra, strenghtExtra, defenseExtra, dexterityExtra;
         static int randomEncounterChance;
         static int statBudget = 0, blocked, playerDamage, enemyDamage, playerHitChance, enemyHitChance, hitChance = 10, distance, distanceRemaining;
 
@@ -48,17 +48,17 @@ namespace Montblanc
                 {
                     statBudget = 0;
 
-                    StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?", player.PlayerStrenght);
-                    StatAsign("¿Cuantos puntos quieres invertir en tu defensa?", player.PlayerDefense);
-                    StatAsign("¿Cuantos puntos quieres invertir en tu destreza?", player.PlayerDexterity);
+                    player.PlayerStrenght += StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?");
+                    player.PlayerDefense += StatAsign("¿Cuantos puntos quieres invertir en tu defensa?");
+                    player.PlayerDexterity += StatAsign("¿Cuantos puntos quieres invertir en tu destreza?");
 
                     statBudget = player.PlayerStrenght + player.PlayerDefense + player.PlayerDexterity;
 
                     StatBudgetValidation();
                 }
-                while (statBudget != 15);
+                while (statBudget != 30);
 
-                playerAnswer = Question("Tienes " + player.PlayerStrenght + "de fuerza, " + player.PlayerDefense + "de defensa, y " + player.PlayerDexterity + " de destreza, ¿Es correcto?");
+                playerAnswer = Question("Tienes " + (player.PlayerStrenght - 5) + " de fuerza, " + (player.PlayerDefense - 5) + " de defensa, y " + (player.PlayerDexterity - 5) + " de destreza, ¿Es correcto?");
 
             }
             while (playerAnswer == "No" || playerAnswer == "no");
@@ -74,6 +74,8 @@ namespace Montblanc
             player.PlayerDefense += 2;
             player.PlayerDexterity += 4;
 
+            Console.ReadKey();
+
             DisplayDialogue("Orco: ¿Si te diste cuenta que esto ahora es un tutorial no?");
             DisplayDialogue("Orco: Bueno, es igual para mi, ¡Me estás dando la oportunidad de matarte!");
 
@@ -88,26 +90,7 @@ namespace Montblanc
             {
                 do
                 {
-                    if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 0)
-                    {
-                        BSID = 1;
-                        RPID = 2;
-                    }
-
-                    if (GHCompletion == 0 && BSCompletion == 1 && RPCompletion == 0)
-                    {
-                        RPID = 2;
-                    }
-
-                    if (GHCompletion == 1 && BSCompletion == 1 && RPCompletion == 0)
-                    {
-                        RPID = 1;
-                    }
-
-                    if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 1)
-                    {
-                        BSID = 1;
-                    }
+                    OptionNumberAssign();
 
                     ThreeQuests();
 
@@ -116,73 +99,19 @@ namespace Montblanc
                     decision = int.Parse(Console.ReadLine());
                     Console.Clear();
 
-                    distance = rnd.Next(6, 12);
-
-                    for (int steps = 0; steps < distance; steps++)
-                    {
-                        distanceRemaining = distance - steps;
-                        Console.WriteLine("Estás a " + distanceRemaining + " metros de distancia de tu destino");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        randomEncounterChance = rnd.Next(1, 10);
-                        if (randomEncounterChance <= 2)
-                        {
-                            Console.WriteLine("¡Se acerca un enemigo!");
-                            Console.ReadKey();
-                            Console.Clear();
-
-                            if (randomEncounterChance <= 2)
-                            {
-                                Enemy zombi = new Enemy();
-                                zombi.crearZombi();
-
-                                Combate(player, zombi);
-                            }
-                        }
-                    }
+                    RandomEncounter(player);
 
                     if (decision == GHID && GHCompletion != 1)
                     {
                         ubicacionActual = "GREENHILLS";
 
-                        Console.WriteLine("Te encuentras en " + ubicacionActual + ".");
-                        Console.ReadKey();
-                        Console.Clear();
+                        DisplayDialogue("Te encuentras en " + ubicacionActual + ".");
+                        DisplayDialogue("???: Un viajero.");
+                        DisplayDialogue("Una mujer con una túnica blanca se acerca a ti. Parece tener un resplandor divino dificil de exlplicar.");
+                        DisplayDialogue("???: Soy el oráculo de los paramos. Para superar mi prueba, debes responder un acertijo");
+                        DisplayDialogue("Oráculo: No temas, no es nada del otro mundo. La respuesta es una única palabra");
 
-                        Console.WriteLine("???: Un viajero.");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        Console.WriteLine("Una mujer con una túnica blanca se acerca a ti. Parece tener un resplandor divino dificil de exlplicar.");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        Console.WriteLine("???: Soy el oráculo de los paramos. Para superar mi prueba, debes responder un acertijo");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        Console.WriteLine("Oráculo: No temas, no es nada del otro mundo. La respuesta es una única palabra");
-                        Console.ReadKey();
-                        Console.Clear();
-
-                        do
-                        {
-                            Console.WriteLine("Oráculo: ¿Qué ser camina con cuatro patas al alba, dos patas al mediodía y tres patas al atardecer?");
-                            Console.ReadKey();
-                            Console.Clear();
-
-                            playerAnswer = Console.ReadLine();
-
-                            if (playerAnswer != "Humano" && playerAnswer != "humano")
-                            {
-                                Console.WriteLine("Oráculo: No es correcto. Recuerd que es sólo una palabra.");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-
-                        }
-                        while (playerAnswer != "Humano" && playerAnswer != "humano");
+                        Riddle("Oráculo: ¿Qué ser camina con cuatro patas al alba, dos patas al mediodía y tres patas al atardecer?", "Humano", "humano");
 
                         Console.WriteLine("Oráculo: ¡Correcto! Ustedes humanos, nacen caminando en 4 patas, crecen para andar en 2 y necesitan apoyarse al envejecer.");
                         Console.ReadKey();
@@ -431,7 +360,7 @@ namespace Montblanc
             return answer;
         }
 
-        static void StatAsign(string texto, int statint)
+        static int StatAsign(string texto)
         {
             string stat;
             do
@@ -459,20 +388,21 @@ namespace Montblanc
             }
             while (string.IsNullOrEmpty(stat) || int.Parse(stat) < 0);
 
-            statint += int.Parse(stat);
+            int statint = int.Parse(stat);
+            return statint;
         }
 
         static void StatBudgetValidation()
         {
-            if (statBudget < 15)
+            if (statBudget < 30)
             {
-                Console.WriteLine("¡Te sobran " + (15 - statBudget) + " puntos! Asigna tus puntos de nuevo");
+                Console.WriteLine("¡Te sobran " + (30 - statBudget) + " puntos! Asigna tus puntos de nuevo");
                 Console.ReadKey();
                 Console.Clear();
 
             }
 
-            if (statBudget > 15)
+            if (statBudget > 30)
             {
                 Console.WriteLine("¡Te pasaste! Sólo tienes 15 puntos para repartir");
                 Console.ReadKey();
@@ -511,6 +441,80 @@ namespace Montblanc
             {
                 Console.WriteLine(RPID + " REDPLAINS");
             }
+        }
+
+        static void OptionNumberAssign()
+        {
+            if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 0)
+            {
+                BSID = 1;
+                RPID = 2;
+            }
+
+            if (GHCompletion == 0 && BSCompletion == 1 && RPCompletion == 0)
+            {
+                RPID = 2;
+            }
+
+            if (GHCompletion == 1 && BSCompletion == 1 && RPCompletion == 0)
+            {
+                RPID = 1;
+            }
+
+            if (GHCompletion == 1 && BSCompletion == 0 && RPCompletion == 1)
+            {
+                BSID = 1;
+            }
+        }
+
+        static void RandomEncounter(Player player)
+        {
+            distance = rnd.Next(6, 12);
+
+            for (int steps = 0; steps < distance; steps++)
+            {
+                distanceRemaining = distance - steps;
+                Console.WriteLine("Estás a " + distanceRemaining + " metros de distancia de tu destino");
+                Console.ReadKey();
+                Console.Clear();
+
+                randomEncounterChance = rnd.Next(1, 10);
+                if (randomEncounterChance <= 2)
+                {
+                    Console.WriteLine("¡Se acerca un enemigo!");
+                    Console.ReadKey();
+                    Console.Clear();
+
+                    if (randomEncounterChance <= 2)
+                    {
+                        Enemy zombi = new Enemy();
+                        zombi.crearZombi();
+
+                        Combate(player, zombi);
+                    }
+                }
+            }
+        }
+
+        static void Riddle(string riddle, string ans1, string ans2)
+        {
+            do
+            {
+                Console.WriteLine(riddle);
+                Console.ReadKey();
+                Console.Clear();
+
+                playerAnswer = Console.ReadLine();
+
+                if (playerAnswer != "Humano" && playerAnswer != "humano")
+                {
+                    Console.WriteLine("Oráculo: No es correcto. Recuerd que es sólo una palabra.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+
+            }
+            while (playerAnswer != ans1 && playerAnswer != ans2);
         }
     }
 }
