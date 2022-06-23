@@ -276,6 +276,8 @@ namespace Montblanc
             player.PlayerStrenght += strenghtExtra;
             player.PlayerDefense += defenseExtra;
             player.PlayerDexterity += dexterityExtra;
+
+            Console.Clear();
         }
 
         static void Defend(Player player, Enemy enemy)
