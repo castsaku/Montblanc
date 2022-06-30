@@ -464,7 +464,7 @@ namespace Montblanc
             for (int steps = 0; steps < distance; steps++)
             {
                 distanceRemaining = distance - steps;
-                Console.WriteLine("Estás a " + distanceRemaining + " metros de distancia de tu destino");
+                Console.WriteLine("Estás a " + distanceRemaining + " de distancia de tu destino");
                 Console.ReadKey();
                 Console.Clear();
 
@@ -495,7 +495,7 @@ namespace Montblanc
 
                 if (playerAnswer != "Humano" && playerAnswer != "humano")
                 {
-                    Console.WriteLine("Oráculo: No es correcto. Recuerd que es sólo una palabra.");
+                    Console.WriteLine("Oráculo: No es correcto. Recuerda que es sólo una palabra.");
                     Console.ReadKey();
                     Console.Clear();
                 }
