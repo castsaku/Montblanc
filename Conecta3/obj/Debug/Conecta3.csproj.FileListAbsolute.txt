@@ -1,8 +1,0 @@
-E:\Users\andre\Source\Repos\Conecta3\obj\Debug\Conecta3.csproj.AssemblyReference.cache
-E:\Users\andre\Source\Repos\Conecta3\obj\Debug\Conecta3.csproj.SuggestedBindingRedirects.cache
-E:\Users\andre\Source\Repos\Conecta3\obj\Debug\Conecta3.csproj.CoreCompileInputs.cache
-E:\Users\andre\Source\Repos\Conecta3\bin\Debug\Conecta3.exe.config
-E:\Users\andre\Source\Repos\Conecta3\bin\Debug\Conecta3.exe
-E:\Users\andre\Source\Repos\Conecta3\bin\Debug\Conecta3.pdb
-E:\Users\andre\Source\Repos\Conecta3\obj\Debug\Conecta3.exe
-E:\Users\andre\Source\Repos\Conecta3\obj\Debug\Conecta3.pdb
