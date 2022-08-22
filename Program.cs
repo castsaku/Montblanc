@@ -21,7 +21,8 @@ namespace Montblanc
         {
             Player player = new Player();
 
-            DisplayDialogue("Antes de comenzar, por favor asigna tus estadisticas. Tienes 15 puntos para distribuir entre tu fuerza, defensa y destreza");
+            DisplayDialogue("*** PARA AVANZAR LOS DIALOGOS, PRESIONA UNA TECLA ***");
+            DisplayDialogue("Antes de comenzar, por favor asigna tus estadisticas.\nTienes 15 puntos para distribuir entre tu fuerza, defensa y destreza.");
 
             do
             {
@@ -32,9 +33,9 @@ namespace Montblanc
                     player.PlayerDefense = 5;
                     player.PlayerDexterity = 5;
 
-                    player.PlayerStrenght += StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?");
-                    player.PlayerDefense += StatAsign("¿Cuantos puntos quieres invertir en tu defensa?");
-                    player.PlayerDexterity += StatAsign("¿Cuantos puntos quieres invertir en tu destreza?");
+                    player.PlayerStrenght += StatAsign("¿Cuantos puntos quieres invertir en tu fuerza?\nEsto determinará cuanto daño harás con tus ataques.");
+                    player.PlayerDefense += StatAsign("\n¿Cuantos puntos quieres invertir en tu defensa?\nEsto determinará cuanto bloquearás de tus enemigos.");
+                    player.PlayerDexterity += StatAsign("\n¿Cuantos puntos quieres invertir en tu destreza?\nEsto determinará la probabilidad de que tu ataques acierten.");
 
                     statBudget = player.PlayerStrenght + player.PlayerDefense + player.PlayerDexterity;
 
@@ -42,14 +43,14 @@ namespace Montblanc
                 }
                 while (statBudget != 30);
 
-                playerAnswer = Question("Tienes " + (player.PlayerStrenght - 5) + " de fuerza, " + (player.PlayerDefense - 5) + " de defensa, y " + (player.PlayerDexterity - 5) + " de destreza, ¿Es correcto?");
+                playerAnswer = Question("\nTienes " + (player.PlayerStrenght - 5) + " de fuerza, " + (player.PlayerDefense - 5) + " de defensa, y " + (player.PlayerDexterity - 5) + " de destreza, ¿Es correcto?\n\nSI / NO\n");
 
             }
             while (playerAnswer == "No" || playerAnswer == "no");
 
             player.PlayerHealthMax = 30;
 
-            DisplayDialogue("Hermana: Oh, gracias a la Diosa, al fin despiertas, dime ¿Recuerdas tu nombre?");
+            DisplayDialogue("???: ¡Oh, gracias a la Diosa, al fin despiertas! ¿Recuerdas tu nombre?");
 
             do
             {
@@ -67,9 +68,10 @@ namespace Montblanc
             }
             while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no");
 
-            DisplayDialogue("Hermana: Es un buen comienzo, te encontramos moribundo a las afueras de la ciudad, tus heridas eran muy graves, estuviste durmiendo al menos 3 días.");
-            DisplayDialogue("Hermana: Llevabas esto contigo, pero repararla puede resultar difícil, dado los pocos recursos que contamos para otorgarte.");
-            DisplayDialogue("Hermana: Por lo que te insto a hablar con el armero o el viejo mago que vive en la torre; cualquiera sea tu elección.");
+            DisplayDialogue("???: Es un buen comienzo, Yo soy la hermana Kalishta.");
+            DisplayDialogue("Kalishta: Te encontramos moribundo a las afueras de la ciudad, tus heridas eran muy graves, estuviste durmiendo al rededor de 3 días.");
+            DisplayDialogue("Kalishta: Llevabas esto contigo, pero repararla puede resultar difícil, dado los pocos recursos que contamos para otorgarte en el monasterio,");
+            DisplayDialogue("Kalishta: por lo que te insto a hablar con el armero o el viejo mago que vive en la torre; cualquiera sea tu elección.");
 
             DisplayDialogue("Hermana: ¿Recuerdas como luchar no? Si lo deseas, puedes prácticar con los muñecos mágicos que hay en el jardín.");
 
@@ -95,11 +97,37 @@ namespace Montblanc
 
             DisplayDialogue("A lo lejos divisas una torre que se alza al este de la ciudad.");
             DisplayDialogue("Convencido de que el armero te puede ayudar, te diriges hacia la torre.");
+            DisplayDialogue("Llegas a una casa completamente ordinaria. Desde dentro puedes escuchar el resonar de un martillo contra acero");
+            DisplayDialogue("Con decisión, entras a la casa para encontrar al herrero, haciendo sonar una campanilla sobre la puerta");
 
-            DisplayDialogue("¡Perfecto! Con esto ya podemos-");
-            DisplayDialogue("¡Oh no! ¡Se acerca un Orco! Vas a tener que luchar");
-            DisplayDialogue("Toma esta espada, debería ayudar en el combate");
-            DisplayDialogue("Recibiste: Espada Corta. \n+4 Fuerza, +2 Defensa, +4 Destreza.");
+            DisplayDialogue("???: ¡Un momento por favor");
+
+            DisplayDialogue("Desde el fondo de la casa aparece un hombre alto y robusto, con una tupída barba y canosa barba adornando su reostro.");
+
+            playerAnswer = Question("Hombre: ¡Muy buenos días! ¿Eres un aventurero? SI/NO");
+
+            if(playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no")
+            {
+                DisplayDialogue("Hombre: ¡Vaya! ¿Es en serio? Pues tienes toda la pinta de ser uno...");
+            }
+
+            DisplayDialogue("Herrero: Bueno, si has venido por servicios de herrería, estás en el lugar correcto");
+
+            DisplayDialogue("Con cuidado, tomas la espada de su empuñadura para jalarla de su funda. El movimiento te hace sentir nostálgico.");
+
+            DisplayDialogue("Herrero: ¡Oh! Traes una espada dañada. Déjame revisarla.");
+
+            DisplayDialogue("El herrero revisa tu arma con sumo detenimiento, casi como si pudiera leer la historia de la hoja");
+
+            DisplayDialogue("Herrero: Es una muy buena hoja, pero parece que tuvo mejores días. lastima.");
+            DisplayDialogue("Herrero: Hmm... Es una lástima porque hasta diría que fue mágica en un pasado. Déjame ver que puedo hacer por ti.");
+
+            DisplayDialogue("El Herrero tomó la hoja, y la llevo a lo que solo puedes suponer es su taller de trabajo");
+            DisplayDialogue("Al cabo de un rato, el Herrero regresa ante ti");
+
+            DisplayDialogue("Herrero: ¡Vaya! Que espada tan peculiar. Definitivamente albergó algún pode mágico en algún punto");
+            DisplayDialogue("Herrero: ¡Realmente es una lástima! No tengo idea de magia como para restaurarla completamente, pero\nya debería ser útil para defenderte.");
+            DisplayDialogue("Herrero: Tómalo como un favor de la casa, estoy seguro que volverás si necesitas algo más.");
 
             player.PlayerStrenght += 4;
             player.PlayerDefense += 2;
@@ -374,7 +402,7 @@ namespace Montblanc
             string stat;
             do
             {
-                Console.WriteLine(texto);
+                Console.WriteLine(texto + "\n");
                 stat = Console.ReadLine();
 
                 {
