@@ -21,25 +21,7 @@ namespace Montblanc
         {
             Player player = new Player();
 
-            DisplayDialogue("¡Bienvenido a Montblanc! Esta aventura te enseñará como defenderte en un mundo adverso.Para avanzar los diálogos, presiona una tecla.");
-            do
-            {
-                do
-                {
-                    player.PlayerName = Question("Primero cuentanos de ti, ¿Cual es tu nombre?");
-
-                    if (string.IsNullOrEmpty(player.PlayerName))
-                    {
-                        ErrorMessage("Debe ingresar un nombre");
-                    }
-                }
-                while (string.IsNullOrEmpty(player.PlayerName));
-
-                playerAnswer = Question("¿Te llamas " + player.PlayerName + "? Si / No");
-            }
-            while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no");
-
-            DisplayDialogue("Ahora vamos a crear tu personaje. Comienzas en nivel 5. Deberás distribuir 15 puntos entre tu Fuerza, Defensa, y Destreza");
+            DisplayDialogue("Antes de comenzar, por favor asigna tus estadisticas. Tienes 15 puntos para distribuir entre tu fuerza, defensa y destreza");
 
             do
             {
@@ -67,6 +49,53 @@ namespace Montblanc
 
             player.PlayerHealthMax = 30;
 
+            DisplayDialogue("Hermana: Oh, gracias a la Diosa, al fin despiertas, dime ¿Recuerdas tu nombre?");
+
+            do
+            {
+                player.PlayerName = Console.ReadLine();
+                do
+                {
+                    if (string.IsNullOrEmpty(player.PlayerName))
+                    {
+                        ErrorMessage("Debe ingresar un nombre.");
+                    }
+                }
+                while (string.IsNullOrEmpty(player.PlayerName));
+
+                playerAnswer = Question("¿Te llamas " + player.PlayerName + "? Si / No");
+            }
+            while (playerAnswer == "No" || playerAnswer == "NO" || playerAnswer == "no");
+
+            DisplayDialogue("Hermana: Es un buen comienzo, te encontramos moribundo a las afueras de la ciudad, tus heridas eran muy graves, estuviste durmiendo al menos 3 días.");
+            DisplayDialogue("Hermana: Llevabas esto contigo, pero repararla puede resultar difícil, dado los pocos recursos que contamos para otorgarte.");
+            DisplayDialogue("Hermana: Por lo que te insto a hablar con el armero o el viejo mago que vive en la torre; cualquiera sea tu elección.");
+
+            DisplayDialogue("Hermana: ¿Recuerdas como luchar no? Si lo deseas, puedes prácticar con los muñecos mágicos que hay en el jardín.");
+
+            do
+            {
+                playerAnswer = Question("Este combate será tu tutorial. Si ya entiendes las mecánicas lo puedes ignorar. ¿Recuerdas como luchar? Si / No");
+                if (string.IsNullOrEmpty(playerAnswer))
+                {
+                    ErrorMessage("Debe elegir una opción.");
+                }
+            }
+            while (string.IsNullOrEmpty(playerAnswer));
+
+            if (playerAnswer == "No" || playerAnswer == "no" || playerAnswer == "nO")
+            {
+                CombatTutorial();
+
+                Enemy orco = new Enemy();
+                orco.crearOrco();
+
+                Combate(player, orco);
+            }
+
+            DisplayDialogue("A lo lejos divisas una torre que se alza al este de la ciudad.");
+            DisplayDialogue("Convencido de que el armero te puede ayudar, te diriges hacia la torre.");
+
             DisplayDialogue("¡Perfecto! Con esto ya podemos-");
             DisplayDialogue("¡Oh no! ¡Se acerca un Orco! Vas a tener que luchar");
             DisplayDialogue("Toma esta espada, debería ayudar en el combate");
@@ -75,16 +104,6 @@ namespace Montblanc
             player.PlayerStrenght += 4;
             player.PlayerDefense += 2;
             player.PlayerDexterity += 4;
-
-            DisplayDialogue("Orco: ¿Si te diste cuenta que esto ahora es un tutorial no?");
-            DisplayDialogue("Orco: Bueno, es igual para mi, ¡Me estás dando la oportunidad de matarte!");
-
-            CombatTutorial();
-
-            Enemy orco = new Enemy();
-            orco.crearOrco();
-
-            Combate(player, orco);
 
             do
             {

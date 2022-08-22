@@ -35,9 +35,9 @@ namespace Montblanc
             enemyDexterity = 10;
             enemyExp = 100;
 
-            enemyName = "Orco";
-            victoryMessage = "¡Buajaja! Nada mal para tu primer combate";
-            defeatMessage = "Che vieja ponele ganas";
+            enemyName = "Muñeco de Entrenamiento";
+            victoryMessage = "El muñeco parece haber tenido suficiente.";
+            defeatMessage = "De alguna forma, perdiste contra un pedazo de madera encantado-";
         }
 
         public void crearZombi()
